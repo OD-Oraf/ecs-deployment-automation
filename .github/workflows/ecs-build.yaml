@@ -58,12 +58,14 @@ jobs:
           ls -la
           sudo apt-get install tree
           tree
-          cd spring-boot-examples/spring-boot-web-application
+          # move the contents of the sparse checkout to the root directory
+          mv spring-boot-examples/spring-boot-web-application/* .
+          
+          
 
       - name: Detect application type and generate Dockerfile
         id: detect-app
         run: |
-          cd spring-boot-examples/spring-boot-web-application
           pwd
           
           if [ -f "pom.xml" ]; then
