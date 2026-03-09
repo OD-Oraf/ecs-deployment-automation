@@ -63,6 +63,9 @@ jobs:
       - name: Detect application type and generate Dockerfile
         id: detect-app
         run: |
+          cd spring-boot-examples/spring-boot-web-application
+          pwd
+          
           if [ -f "pom.xml" ]; then
             echo "app_type=java" >> $GITHUB_OUTPUT
             echo "Detected Java application (pom.xml found)"
