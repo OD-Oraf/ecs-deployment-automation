@@ -52,6 +52,13 @@ jobs:
           fetch-depth: 0
           sparse-checkout: 'spring-boot-examples/spring-boot-web-application'
 
+      - name: Display workspace contents
+        run: |
+          echo "Current working directory: $(pwd)"
+          ls -la
+          sudo apt-get install tree
+          tree
+
       - name: Detect application type and generate Dockerfile
         id: detect-app
         run: |
