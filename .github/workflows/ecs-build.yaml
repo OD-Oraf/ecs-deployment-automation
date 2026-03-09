@@ -1,0 +1,150 @@
+name: Build and Deploy to ECS
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      aws_region:
+        description: 'AWS region'
+        required: true
+        default: 'us-east-1'
+      ecr_repository:
+        description: 'ECR repository name'
+        required: true
+        default: 'rest-service'
+      ecs_cluster:
+        description: 'ECS cluster name'
+        required: true
+        default: 'rest-service-dev-cluster'
+      ecs_service:
+        description: 'ECS service name'
+        required: true
+        default: 'rest-service-dev-service'
+      ecs_task_definition:
+        description: 'ECS task definition family name'
+        required: true
+        default: 'rest-service-dev-task'
+      container_name:
+        description: 'Container name in the task definition'
+        required: true
+        default: 'rest-service'
+
+env:
+  AWS_REGION: ${{ inputs.aws_region || 'us-east-1' }}
+  ECR_REPOSITORY: ${{ inputs.ecr_repository || 'rest-service' }}
+  ECS_CLUSTER: ${{ inputs.ecs_cluster || 'rest-service-dev-cluster' }}
+  ECS_SERVICE: ${{ inputs.ecs_service || 'rest-service-dev-service' }}
+  ECS_TASK_DEFINITION: ${{ inputs.ecs_task_definition || 'rest-service-dev-task' }}
+  CONTAINER_NAME: ${{ inputs.container_name || 'rest-service' }}
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  build-and-deploy:
+    name: Build, Push, and Deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          sparse-checkout: 'spring-boot-examples/sprint-boot-web-application'
+
+      - name: Detect application type and generate Dockerfile
+        id: detect-app
+        run: |
+          if [ -f "pom.xml" ]; then
+            echo "app_type=java" >> $GITHUB_OUTPUT
+            echo "Detected Java application (pom.xml found)"
+            cat > Dockerfile <<'EOF'
+          FROM maven:3.9-eclipse-temurin-21 AS build
+          WORKDIR /app
+          COPY pom.xml .
+          RUN mvn dependency:go-offline -B
+          COPY src ./src
+          RUN mvn package -DskipTests -B
+
+          FROM eclipse-temurin:21-jre
+          WORKDIR /app
+          COPY --from=build /app/target/*.jar app.jar
+          EXPOSE 8080
+          ENTRYPOINT ["java", "-jar", "app.jar"]
+          EOF
+          elif [ -f "package.json" ]; then
+            echo "app_type=node" >> $GITHUB_OUTPUT
+            echo "Detected Node.js application (package.json found)"
+            cat > Dockerfile <<'EOF'
+          FROM node:20-alpine AS build
+          WORKDIR /app
+          COPY package*.json ./
+          RUN npm ci
+          COPY . .
+          RUN npm run build
+
+          FROM node:20-alpine
+          WORKDIR /app
+          COPY --from=build /app/package*.json ./
+          RUN npm ci --only=production
+          COPY --from=build /app/dist ./dist
+          EXPOSE 3000
+          CMD ["node", "dist/index.js"]
+          EOF
+          else
+            echo "::error::No pom.xml or package.json found. Unable to determine application type."
+            exit 1
+          fi
+          echo "Dockerfile generated successfully"
+          echo "--- Generated Dockerfile ---"
+          cat Dockerfile
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::289491622160:role/rest-service-dev-github-actions-ecs-deploy
+          aws-region: us-east-1
+
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build, tag, and push image to ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
+        run: |
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG \
+                        -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
+          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+
+      - name: Pull task definition from ECS
+        id: pull-task-def
+        run: |
+          aws ecs describe-task-definition \
+            --task-definition $ECS_TASK_DEFINITION \
+            --query 'taskDefinition' \
+            --output json | jq 'del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities, .registeredAt, .registeredBy)' > task-definition.json
+          echo "Pulled and cleaned task definition:"
+          cat task-definition.json
+
+      - name: Update image in task definition
+        id: render-task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          container-name: ${{ env.CONTAINER_NAME }}
+          image: ${{ steps.build-image.outputs.image }}
+
+      - name: Deploy to Amazon ECS
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+        with:
+          task-definition: ${{ steps.render-task-def.outputs.task-definition }}
+          service: ${{ env.ECS_SERVICE }}
+          cluster: ${{ env.ECS_CLUSTER }}
+          wait-for-service-stability: true

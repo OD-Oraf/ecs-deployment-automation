@@ -1,0 +1,4 @@
+.idea/
+
+spring-boot-examples/*
+!spring-boot-examples/sprint-boot-web-application
