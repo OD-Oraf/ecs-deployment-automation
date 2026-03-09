@@ -58,6 +58,7 @@ jobs:
           ls -la
           sudo apt-get install tree
           tree
+          cd spring-boot-examples/spring-boot-web-application
 
       - name: Detect application type and generate Dockerfile
         id: detect-app
