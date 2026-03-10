@@ -3,6 +3,14 @@ name: Build and Deploy to ECS
 on:
   workflow_call:
     inputs:
+      service_name:
+        description: 'Service name (must match a folder in deploy-configs/)'
+        required: true
+        type: string
+      environment:
+        description: 'Target environment (dev, sit, uat, prod)'
+        required: true
+        type: string
       ecs_cluster:
         description: 'ECS cluster name'
         required: true
@@ -31,7 +39,14 @@ on:
         description: 'IAM role ARN for AWS credentials'
         required: true
         type: string
-
+      cpu:
+        description: 'Task definition CPU units'
+        required: true
+        type: string
+      memory:
+        description: 'Task definition memory (MiB)'
+        required: true
+        type: string
 
 env:
   AWS_REGION: ${{ inputs.aws_region }}
@@ -47,74 +62,36 @@ permissions:
 
 jobs:
   build-and-deploy:
-    name: Build, Push, and Deploy
+    name: Build, Push, and Deploy (${{ inputs.service_name }} - ${{ inputs.environment }})
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout application code
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
           sparse-checkout: 'spring-boot-examples/spring-boot-web-application'
 
-      - name: Display workspace contents
+      - name: Move application code to workspace root
         run: |
-          echo "Current working directory: $(pwd)"
-          ls -la
-          sudo apt-get install tree
-          tree
-          # move the contents of the sparse checkout to the root directory
           mv spring-boot-examples/spring-boot-web-application/* .
-          
-          
 
-      - name: Detect application type and generate Dockerfile
-        id: detect-app
+      - name: Checkout deploy configs
+        uses: actions/checkout@v4
+        with:
+          ref: deploy-config
+          path: deploy-configs-repo
+          sparse-checkout: 'deploy-configs/${{ inputs.service_name }}'
+
+      - name: Copy Dockerfile from deploy configs
         run: |
-          pwd
-          
-          if [ -f "pom.xml" ]; then
-            echo "app_type=java" >> $GITHUB_OUTPUT
-            echo "Detected Java application (pom.xml found)"
-            cat > Dockerfile <<'EOF'
-          FROM maven:3.9-eclipse-temurin-21 AS build
-          WORKDIR /app
-          COPY pom.xml .
-          RUN mvn dependency:go-offline -B
-          COPY src ./src
-          RUN mvn package -DskipTests -B
-
-          FROM eclipse-temurin:21-jre
-          WORKDIR /app
-          COPY --from=build /app/target/*.jar app.jar
-          EXPOSE 8080
-          ENTRYPOINT ["java", "-jar", "app.jar"]
-          EOF
-          elif [ -f "package.json" ]; then
-            echo "app_type=node" >> $GITHUB_OUTPUT
-            echo "Detected Node.js application (package.json found)"
-            cat > Dockerfile <<'EOF'
-          FROM node:20-alpine AS build
-          WORKDIR /app
-          COPY package*.json ./
-          RUN npm ci
-          COPY . .
-          RUN npm run build
-
-          FROM node:20-alpine
-          WORKDIR /app
-          COPY --from=build /app/package*.json ./
-          RUN npm ci --only=production
-          COPY --from=build /app/dist ./dist
-          EXPOSE 3000
-          CMD ["node", "dist/index.js"]
-          EOF
-          else
-            echo "::error::No pom.xml or package.json found. Unable to determine application type."
+          DOCKERFILE_PATH="deploy-configs-repo/deploy-configs/${{ inputs.service_name }}/Dockerfile"
+          if [ ! -f "$DOCKERFILE_PATH" ]; then
+            echo "::error::Dockerfile not found at $DOCKERFILE_PATH"
             exit 1
           fi
-          echo "Dockerfile generated successfully"
-          echo "--- Generated Dockerfile ---"
+          cp "$DOCKERFILE_PATH" Dockerfile
+          echo "--- Using Dockerfile for ${{ inputs.service_name }} ---"
           cat Dockerfile
 
       - name: Configure AWS credentials
@@ -145,8 +122,11 @@ jobs:
           aws ecs describe-task-definition \
             --task-definition $ECS_TASK_DEFINITION \
             --query 'taskDefinition' \
-            --output json | jq 'del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities, .registeredAt, .registeredBy) | .cpu = "512" | .memory = "1024"' > task-definition.json
-          echo "Pulled and cleaned task definition:"
+            --output json | jq \
+              --arg cpu "${{ inputs.cpu }}" \
+              --arg mem "${{ inputs.memory }}" \
+              'del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities, .registeredAt, .registeredBy) | .cpu = $cpu | .memory = $mem' > task-definition.json
+          echo "Pulled and cleaned task definition (cpu=${{ inputs.cpu }}, memory=${{ inputs.memory }}):"
           cat task-definition.json
 
       - name: Update image in task definition

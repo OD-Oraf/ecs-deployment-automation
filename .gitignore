@@ -1,4 +1,5 @@
 .idea/
+deploy-configs/
 
 spring-boot-examples/*
 !spring-boot-examples/spring-boot-web-application
