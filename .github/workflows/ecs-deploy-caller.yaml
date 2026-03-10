@@ -20,6 +20,10 @@ on:
           - uat
           - prod
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   resolve-config:
     name: Resolve Config (${{ inputs.service_name }} - ${{ inputs.environment }})
