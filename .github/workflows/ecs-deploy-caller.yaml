@@ -1,0 +1,76 @@
+name: Deploy ECS Service
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Target environment'
+        required: true
+        type: choice
+        options:
+          - dev
+          - staging
+          - prod
+
+jobs:
+  resolve-config:
+    name: Resolve Environment Config
+    runs-on: ubuntu-latest
+    outputs:
+      ecs_cluster: ${{ steps.config.outputs.ecs_cluster }}
+      ecs_service: ${{ steps.config.outputs.ecs_service }}
+      ecs_task_definition: ${{ steps.config.outputs.ecs_task_definition }}
+      container_name: ${{ steps.config.outputs.container_name }}
+      aws_region: ${{ steps.config.outputs.aws_region }}
+      ecr_repository: ${{ steps.config.outputs.ecr_repository }}
+      iam_role: ${{ steps.config.outputs.iam_role }}
+    steps:
+      - name: Set environment-specific config
+        id: config
+        run: |
+          case "${{ inputs.environment }}" in
+            dev)
+              echo "ecs_cluster=rest-service-dev-cluster" >> $GITHUB_OUTPUT
+              echo "ecs_service=rest-service-dev-service" >> $GITHUB_OUTPUT
+              echo "ecs_task_definition=rest-service-dev-task" >> $GITHUB_OUTPUT
+              echo "container_name=rest-service" >> $GITHUB_OUTPUT
+              echo "aws_region=us-east-1" >> $GITHUB_OUTPUT
+              echo "ecr_repository=rest-service" >> $GITHUB_OUTPUT
+              echo "iam_role=arn:aws:iam::289491622160:role/rest-service-dev-github-actions-ecs-deploy" >> $GITHUB_OUTPUT
+              ;;
+            staging)
+              echo "ecs_cluster=rest-service-staging-cluster" >> $GITHUB_OUTPUT
+              echo "ecs_service=rest-service-staging-service" >> $GITHUB_OUTPUT
+              echo "ecs_task_definition=rest-service-staging-task" >> $GITHUB_OUTPUT
+              echo "container_name=rest-service" >> $GITHUB_OUTPUT
+              echo "aws_region=us-east-1" >> $GITHUB_OUTPUT
+              echo "ecr_repository=rest-service" >> $GITHUB_OUTPUT
+              echo "iam_role=arn:aws:iam::289491622160:role/rest-service-staging-github-actions-ecs-deploy" >> $GITHUB_OUTPUT
+              ;;
+            prod)
+              echo "ecs_cluster=rest-service-prod-cluster" >> $GITHUB_OUTPUT
+              echo "ecs_service=rest-service-prod-service" >> $GITHUB_OUTPUT
+              echo "ecs_task_definition=rest-service-prod-task" >> $GITHUB_OUTPUT
+              echo "container_name=rest-service" >> $GITHUB_OUTPUT
+              echo "aws_region=us-east-1" >> $GITHUB_OUTPUT
+              echo "ecr_repository=rest-service" >> $GITHUB_OUTPUT
+              echo "iam_role=arn:aws:iam::289491622160:role/rest-service-prod-github-actions-ecs-deploy" >> $GITHUB_OUTPUT
+              ;;
+            *)
+              echo "::error::Unknown environment: ${{ inputs.environment }}"
+              exit 1
+              ;;
+          esac
+
+  deploy:
+    name: Deploy to ${{ inputs.environment }}
+    needs: resolve-config
+    uses: ./.github/workflows/ecs-build.yaml
+    with:
+      ecs_cluster: ${{ needs.resolve-config.outputs.ecs_cluster }}
+      ecs_service: ${{ needs.resolve-config.outputs.ecs_service }}
+      ecs_task_definition: ${{ needs.resolve-config.outputs.ecs_task_definition }}
+      container_name: ${{ needs.resolve-config.outputs.container_name }}
+      aws_region: ${{ needs.resolve-config.outputs.aws_region }}
+      ecr_repository: ${{ needs.resolve-config.outputs.ecr_repository }}
+      iam_role: ${{ needs.resolve-config.outputs.iam_role }}
