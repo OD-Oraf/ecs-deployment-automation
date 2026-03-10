@@ -3,6 +3,26 @@ name: Build and Deploy to ECS
 on:
   workflow_dispatch:
     inputs:
+      branch_name:
+        description: 'Branch to be deployed'
+        required: true
+        default: 'main'
+      ecs_cluster:
+        description: 'ECS cluster name'
+        required: true
+        default: 'rest-service-dev-cluster'
+      container_name:
+        description: 'Container name in the task definition'
+        required: true
+        default: 'rest-service'
+      ecs_task_definition:
+        description: 'ECS task definition family name'
+        required: true
+        default: 'rest-service-dev-task'
+      ecs_service:
+        description: 'ECS service name'
+        required: true
+        default: 'rest-service-dev-service'
       aws_region:
         description: 'AWS region'
         required: true
@@ -11,22 +31,18 @@ on:
         description: 'ECR repository name'
         required: true
         default: 'rest-service'
-      ecs_cluster:
-        description: 'ECS cluster name'
+      app_env:
+        description: 'Application environment'
         required: true
-        default: 'rest-service-dev-cluster'
-      ecs_service:
-        description: 'ECS service name'
-        required: true
-        default: 'rest-service-dev-service'
-      ecs_task_definition:
-        description: 'ECS task definition family name'
-        required: true
-        default: 'rest-service-dev-task'
-      container_name:
-        description: 'Container name in the task definition'
+        default: 'dev'
+      ecr_repository_name:
+        description: 'ECR repository name'
         required: true
         default: 'rest-service'
+
+
+
+
 
 env:
   AWS_REGION: ${{ inputs.aws_region || 'us-east-1' }}
