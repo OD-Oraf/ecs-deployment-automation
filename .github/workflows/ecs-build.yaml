@@ -1,56 +1,45 @@
 name: Build and Deploy to ECS
 
 on:
-  workflow_dispatch:
+  workflow_call:
     inputs:
-      branch_name:
-        description: 'Branch to be deployed'
-        required: true
-        default: 'main'
       ecs_cluster:
         description: 'ECS cluster name'
         required: true
-        default: 'rest-service-dev-cluster'
+        type: string
       container_name:
         description: 'Container name in the task definition'
         required: true
-        default: 'rest-service'
+        type: string
       ecs_task_definition:
         description: 'ECS task definition family name'
         required: true
-        default: 'rest-service-dev-task'
+        type: string
       ecs_service:
         description: 'ECS service name'
         required: true
-        default: 'rest-service-dev-service'
+        type: string
       aws_region:
         description: 'AWS region'
         required: true
-        default: 'us-east-1'
+        type: string
       ecr_repository:
         description: 'ECR repository name'
         required: true
-        default: 'rest-service'
-      app_env:
-        description: 'Application environment'
+        type: string
+      iam_role:
+        description: 'IAM role ARN for AWS credentials'
         required: true
-        default: 'dev'
-      ecr_repository_name:
-        description: 'ECR repository name'
-        required: true
-        default: 'rest-service'
-
-
-
+        type: string
 
 
 env:
-  AWS_REGION: ${{ inputs.aws_region || 'us-east-1' }}
-  ECR_REPOSITORY: ${{ inputs.ecr_repository || 'rest-service' }}
-  ECS_CLUSTER: ${{ inputs.ecs_cluster || 'rest-service-dev-cluster' }}
-  ECS_SERVICE: ${{ inputs.ecs_service || 'rest-service-dev-service' }}
-  ECS_TASK_DEFINITION: ${{ inputs.ecs_task_definition || 'rest-service-dev-task' }}
-  CONTAINER_NAME: ${{ inputs.container_name || 'rest-service' }}
+  AWS_REGION: ${{ inputs.aws_region }}
+  ECR_REPOSITORY: ${{ inputs.ecr_repository }}
+  ECS_CLUSTER: ${{ inputs.ecs_cluster }}
+  ECS_SERVICE: ${{ inputs.ecs_service }}
+  ECS_TASK_DEFINITION: ${{ inputs.ecs_task_definition }}
+  CONTAINER_NAME: ${{ inputs.container_name }}
 
 permissions:
   id-token: write
@@ -131,8 +120,8 @@ jobs:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::289491622160:role/rest-service-dev-github-actions-ecs-deploy
-          aws-region: us-east-1
+          role-to-assume: ${{ inputs.iam_role }}
+          aws-region: ${{ inputs.aws_region }}
 
       - name: Login to Amazon ECR
         id: login-ecr
