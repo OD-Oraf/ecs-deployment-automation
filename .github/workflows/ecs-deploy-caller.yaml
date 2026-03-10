@@ -3,18 +3,26 @@ name: Deploy ECS Service
 on:
   workflow_dispatch:
     inputs:
+      service_name:
+        description: 'Service to deploy (must match a folder in deploy-configs/)'
+        required: true
+        type: choice
+        options:
+          - rest-service
+          - frontend-app
       environment:
         description: 'Target environment'
         required: true
         type: choice
         options:
           - dev
-          - staging
+          - sit
+          - uat
           - prod
 
 jobs:
   resolve-config:
-    name: Resolve Environment Config
+    name: Resolve Config (${{ inputs.service_name }} - ${{ inputs.environment }})
     runs-on: ubuntu-latest
     outputs:
       ecs_cluster: ${{ steps.config.outputs.ecs_cluster }}
@@ -24,49 +32,37 @@ jobs:
       aws_region: ${{ steps.config.outputs.aws_region }}
       ecr_repository: ${{ steps.config.outputs.ecr_repository }}
       iam_role: ${{ steps.config.outputs.iam_role }}
+      cpu: ${{ steps.config.outputs.cpu }}
+      memory: ${{ steps.config.outputs.memory }}
     steps:
-      - name: Set environment-specific config
+      - name: Checkout deploy configs
+        uses: actions/checkout@v4
+        with:
+          ref: deploy-config
+          sparse-checkout: 'deploy-configs/${{ inputs.service_name }}'
+
+      - name: Load properties file
         id: config
         run: |
-          case "${{ inputs.environment }}" in
-            dev)
-              echo "ecs_cluster=rest-service-dev-cluster" >> $GITHUB_OUTPUT
-              echo "ecs_service=rest-service-dev-service" >> $GITHUB_OUTPUT
-              echo "ecs_task_definition=rest-service-dev-task" >> $GITHUB_OUTPUT
-              echo "container_name=rest-service" >> $GITHUB_OUTPUT
-              echo "aws_region=us-east-1" >> $GITHUB_OUTPUT
-              echo "ecr_repository=rest-service" >> $GITHUB_OUTPUT
-              echo "iam_role=arn:aws:iam::289491622160:role/rest-service-dev-github-actions-ecs-deploy" >> $GITHUB_OUTPUT
-              ;;
-            staging)
-              echo "ecs_cluster=rest-service-staging-cluster" >> $GITHUB_OUTPUT
-              echo "ecs_service=rest-service-staging-service" >> $GITHUB_OUTPUT
-              echo "ecs_task_definition=rest-service-staging-task" >> $GITHUB_OUTPUT
-              echo "container_name=rest-service" >> $GITHUB_OUTPUT
-              echo "aws_region=us-east-1" >> $GITHUB_OUTPUT
-              echo "ecr_repository=rest-service" >> $GITHUB_OUTPUT
-              echo "iam_role=arn:aws:iam::289491622160:role/rest-service-staging-github-actions-ecs-deploy" >> $GITHUB_OUTPUT
-              ;;
-            prod)
-              echo "ecs_cluster=rest-service-prod-cluster" >> $GITHUB_OUTPUT
-              echo "ecs_service=rest-service-prod-service" >> $GITHUB_OUTPUT
-              echo "ecs_task_definition=rest-service-prod-task" >> $GITHUB_OUTPUT
-              echo "container_name=rest-service" >> $GITHUB_OUTPUT
-              echo "aws_region=us-east-1" >> $GITHUB_OUTPUT
-              echo "ecr_repository=rest-service" >> $GITHUB_OUTPUT
-              echo "iam_role=arn:aws:iam::289491622160:role/rest-service-prod-github-actions-ecs-deploy" >> $GITHUB_OUTPUT
-              ;;
-            *)
-              echo "::error::Unknown environment: ${{ inputs.environment }}"
-              exit 1
-              ;;
-          esac
+          PROPS_FILE="deploy-configs/${{ inputs.service_name }}/${{ inputs.environment }}.properties"
+          if [ ! -f "$PROPS_FILE" ]; then
+            echo "::error::Properties file not found: $PROPS_FILE"
+            exit 1
+          fi
+          echo "--- Loading config from $PROPS_FILE ---"
+          cat "$PROPS_FILE"
+          while IFS='=' read -r key value; do
+            [[ -z "$key" || "$key" =~ ^# ]] && continue
+            echo "${key}=${value}" >> $GITHUB_OUTPUT
+          done < "$PROPS_FILE"
 
   deploy:
-    name: Deploy to ${{ inputs.environment }}
+    name: Deploy ${{ inputs.service_name }} to ${{ inputs.environment }}
     needs: resolve-config
     uses: ./.github/workflows/ecs-build.yaml
     with:
+      service_name: ${{ inputs.service_name }}
+      environment: ${{ inputs.environment }}
       ecs_cluster: ${{ needs.resolve-config.outputs.ecs_cluster }}
       ecs_service: ${{ needs.resolve-config.outputs.ecs_service }}
       ecs_task_definition: ${{ needs.resolve-config.outputs.ecs_task_definition }}
@@ -74,3 +70,5 @@ jobs:
       aws_region: ${{ needs.resolve-config.outputs.aws_region }}
       ecr_repository: ${{ needs.resolve-config.outputs.ecr_repository }}
       iam_role: ${{ needs.resolve-config.outputs.iam_role }}
+      cpu: ${{ needs.resolve-config.outputs.cpu }}
+      memory: ${{ needs.resolve-config.outputs.memory }}
