@@ -1,4 +1,4 @@
-name: Build and Deploy to ECS
+name: Reusable Build and Deploy to ECS
 
 on:
   workflow_call:
