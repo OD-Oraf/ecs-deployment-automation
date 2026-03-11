@@ -68,9 +68,6 @@ jobs:
     steps:
       - name: Checkout application code
         uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-          sparse-checkout: 'spring-boot-examples/spring-boot-web-application'
 
       - name: Move application code to workspace root
         run: |
