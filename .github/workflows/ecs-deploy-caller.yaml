@@ -44,7 +44,6 @@ jobs:
         with:
           ref: deploy-config
           sparse-checkout: 'deploy-configs/${{ inputs.service_name }}'
-          path: deploy-config
 
       - name: Load properties file
         id: config
