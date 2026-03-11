@@ -69,6 +69,10 @@ jobs:
       - name: Checkout application code
         uses: actions/checkout@v4
 
+      - name: Check repo structure for debugging
+        run: |
+          tree
+
       - name: Move application code to workspace root
         run: |
           mv spring-boot-examples/spring-boot-web-application/* .
