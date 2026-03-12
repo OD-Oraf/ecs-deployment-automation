@@ -1,0 +1,6 @@
+com/in28minutes/springboot/controller/StudentControllerTest.class
+com/in28minutes/springboot/controller/HealthCheckControllerTest.class
+com/in28minutes/springboot/controller/CourseControllerTest.class
+com/in28minutes/springboot/controller/EnrollmentControllerTest.class
+com/in28minutes/springboot/StudentServicesApplicationTests.class
+com/in28minutes/springboot/controller/AuthControllerTest.class

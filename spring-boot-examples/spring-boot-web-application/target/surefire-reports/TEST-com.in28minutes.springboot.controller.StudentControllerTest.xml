@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report.xsd" version="3.0.2" name="com.in28minutes.springboot.controller.StudentControllerTest" time="4.057" tests="13" errors="0" skipped="0" failures="1">
+  <properties>
+    <property name="java.specification.version" value="24"/>
+    <property name="sun.jnu.encoding" value="UTF-8"/>
+    <property name="java.class.path" value="/Users/od/Documents/github/ecs-deployment-automation/spring-boot-examples/spring-boot-web-application/target/test-classes:/Users/od/Documents/github/ecs-deployment-automation/spring-boot-examples/spring-boot-web-application/target/classes:/Users/od/.m2/repository/org/springframework/boot/spring-boot-starter-actuator/4.0.0-M1/spring-boot-starter-actuator-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-starter/4.0.0-M1/spring-boot-starter-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-starter-logging/4.0.0-M1/spring-boot-starter-logging-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-starter-logback/4.0.0-M1/spring-boot-starter-logback-4.0.0-M1.jar:/Users/od/.m2/repository/ch/qos/logback/logback-classic/1.5.18/logback-classic-1.5.18.jar:/Users/od/.m2/repository/ch/qos/logback/logback-core/1.5.18/logback-core-1.5.18.jar:/Users/od/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.24.3/log4j-to-slf4j-2.24.3.jar:/Users/od/.m2/repository/org/apache/logging/log4j/log4j-api/2.24.3/log4j-api-2.24.3.jar:/Users/od/.m2/repository/org/slf4j/jul-to-slf4j/2.0.17/jul-to-slf4j-2.0.17.jar:/Users/od/.m2/repository/jakarta/annotation/jakarta.annotation-api/3.0.0/jakarta.annotation-api-3.0.0.jar:/Users/od/.m2/repository/org/yaml/snakeyaml/2.4/snakeyaml-2.4.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-actuator-autoconfigure/4.0.0-M1/spring-boot-actuator-autoconfigure-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-actuator/4.0.0-M1/spring-boot-actuator-4.0.0-M1.jar:/Users/od/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.19.2/jackson-databind-2.19.2.jar:/Users/od/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.19.2/jackson-annotations-2.19.2.jar:/Users/od/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.19.2/jackson-core-2.19.2.jar:/Users/od/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.19.2/jackson-datatype-jsr310-2.19.2.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-health/4.0.0-M1/spring-boot-health-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-metrics/4.0.0-M1/spring-boot-metrics-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-observation/4.0.0-M1/spring-boot-observation-4.0.0-M1.jar:/Users/od/.m2/repository/io/micrometer/micrometer-core/1.16.0-M1/micrometer-core-1.16.0-M1.jar:/Users/od/.m2/repository/org/hdrhistogram/HdrHistogram/2.2.2/HdrHistogram-2.2.2.jar:/Users/od/.m2/repository/org/latencyutils/LatencyUtils/2.0.3/LatencyUtils-2.0.3.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-tracing/4.0.0-M1/spring-boot-tracing-4.0.0-M1.jar:/Users/od/.m2/repository/io/micrometer/micrometer-tracing/1.6.0-M1/micrometer-tracing-1.6.0-M1.jar:/Users/od/.m2/repository/io/micrometer/context-propagation/1.1.3/context-propagation-1.1.3.jar:/Users/od/.m2/repository/io/micrometer/micrometer-observation/1.16.0-M1/micrometer-observation-1.16.0-M1.jar:/Users/od/.m2/repository/org/jspecify/jspecify/1.0.0/jspecify-1.0.0.jar:/Users/od/.m2/repository/io/micrometer/micrometer-commons/1.16.0-M1/micrometer-commons-1.16.0-M1.jar:/Users/od/.m2/repository/io/micrometer/micrometer-jakarta9/1.16.0-M1/micrometer-jakarta9-1.16.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-starter-web/4.0.0-M1/spring-boot-starter-web-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-starter-webmvc/4.0.0-M1/spring-boot-starter-webmvc-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-starter-json/4.0.0-M1/spring-boot-starter-json-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-starter-jackson/4.0.0-M1/spring-boot-starter-jackson-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-jackson/4.0.0-M1/spring-boot-jackson-4.0.0-M1.jar:/Users/od/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.19.2/jackson-datatype-jdk8-2.19.2.jar:/Users/od/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.19.2/jackson-module-parameter-names-2.19.2.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-starter-tomcat/4.0.0-M1/spring-boot-starter-tomcat-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-tomcat/4.0.0-M1/spring-boot-tomcat-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-web-server/4.0.0-M1/spring-boot-web-server-4.0.0-M1.jar:/Users/od/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/11.0.9/tomcat-embed-websocket-11.0.9.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-http-converter/4.0.0-M1/spring-boot-http-converter-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-webmvc/4.0.0-M1/spring-boot-webmvc-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-servlet/4.0.0-M1/spring-boot-servlet-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/spring-webmvc/7.0.0-M7/spring-webmvc-7.0.0-M7.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-starter-security/4.0.0-M1/spring-boot-starter-security-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-security/4.0.0-M1/spring-boot-security-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/security/spring-security-config/7.0.0-M1/spring-security-config-7.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/spring-aop/7.0.0-M7/spring-aop-7.0.0-M7.jar:/Users/od/.m2/repository/org/springframework/spring-beans/7.0.0-M7/spring-beans-7.0.0-M7.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/4.0.0-M1/spring-boot-starter-data-jpa-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/4.0.0-M1/spring-boot-starter-jdbc-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-jdbc/4.0.0-M1/spring-boot-jdbc-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-sql/4.0.0-M1/spring-boot-sql-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/spring-jdbc/7.0.0-M7/spring-jdbc-7.0.0-M7.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-tx/4.0.0-M1/spring-boot-tx-4.0.0-M1.jar:/Users/od/.m2/repository/com/zaxxer/HikariCP/6.3.1/HikariCP-6.3.1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-data-jpa/4.0.0-M1/spring-boot-data-jpa-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-data-commons/4.0.0-M1/spring-boot-data-commons-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/data/spring-data-commons/4.0.0-M4/spring-data-commons-4.0.0-M4.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-hibernate/4.0.0-M1/spring-boot-hibernate-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-jpa/4.0.0-M1/spring-boot-jpa-4.0.0-M1.jar:/Users/od/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.2.0/jakarta.persistence-api-3.2.0.jar:/Users/od/.m2/repository/org/hibernate/orm/hibernate-core/7.0.7.Final/hibernate-core-7.0.7.Final.jar:/Users/od/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.1/jakarta.transaction-api-2.0.1.jar:/Users/od/.m2/repository/org/hibernate/models/hibernate-models/1.0.0/hibernate-models-1.0.0.jar:/Users/od/.m2/repository/org/glassfish/jaxb/jaxb-runtime/4.0.5/jaxb-runtime-4.0.5.jar:/Users/od/.m2/repository/org/glassfish/jaxb/jaxb-core/4.0.5/jaxb-core-4.0.5.jar:/Users/od/.m2/repository/org/eclipse/angus/angus-activation/2.0.2/angus-activation-2.0.2.jar:/Users/od/.m2/repository/org/glassfish/jaxb/txw2/4.0.5/txw2-4.0.5.jar:/Users/od/.m2/repository/com/sun/istack/istack-commons-runtime/4.1.2/istack-commons-runtime-4.1.2.jar:/Users/od/.m2/repository/jakarta/inject/jakarta.inject-api/2.0.1/jakarta.inject-api-2.0.1.jar:/Users/od/.m2/repository/org/springframework/spring-orm/7.0.0-M7/spring-orm-7.0.0-M7.jar:/Users/od/.m2/repository/org/springframework/data/spring-data-jpa/4.0.0-M4/spring-data-jpa-4.0.0-M4.jar:/Users/od/.m2/repository/org/springframework/spring-tx/7.0.0-M7/spring-tx-7.0.0-M7.jar:/Users/od/.m2/repository/org/antlr/antlr4-runtime/4.13.2/antlr4-runtime-4.13.2.jar:/Users/od/.m2/repository/org/springframework/spring-aspects/7.0.0-M7/spring-aspects-7.0.0-M7.jar:/Users/od/.m2/repository/org/aspectj/aspectjweaver/1.9.24/aspectjweaver-1.9.24.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-starter-validation/4.0.0-M1/spring-boot-starter-validation-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-validation/4.0.0-M1/spring-boot-validation-4.0.0-M1.jar:/Users/od/.m2/repository/org/hibernate/validator/hibernate-validator/9.0.1.Final/hibernate-validator-9.0.1.Final.jar:/Users/od/.m2/repository/jakarta/validation/jakarta.validation-api/3.1.1/jakarta.validation-api-3.1.1.jar:/Users/od/.m2/repository/org/jboss/logging/jboss-logging/3.6.1.Final/jboss-logging-3.6.1.Final.jar:/Users/od/.m2/repository/com/fasterxml/classmate/1.7.0/classmate-1.7.0.jar:/Users/od/.m2/repository/com/h2database/h2/2.3.232/h2-2.3.232.jar:/Users/od/.m2/repository/org/apache/tomcat/embed/tomcat-embed-jasper/11.0.9/tomcat-embed-jasper-11.0.9.jar:/Users/od/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/11.0.9/tomcat-embed-core-11.0.9.jar:/Users/od/.m2/repository/org/apache/tomcat/tomcat-annotations-api/11.0.9/tomcat-annotations-api-11.0.9.jar:/Users/od/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/11.0.9/tomcat-embed-el-11.0.9.jar:/Users/od/.m2/repository/org/eclipse/jdt/ecj/3.42.0/ecj-3.42.0.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-devtools/4.0.0-M1/spring-boot-devtools-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot/4.0.0-M1/spring-boot-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/spring-context/7.0.0-M7/spring-context-7.0.0-M7.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/4.0.0-M1/spring-boot-autoconfigure-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-starter-test/4.0.0-M1/spring-boot-starter-test-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-test/4.0.0-M1/spring-boot-test-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-restclient-test/4.0.0-M1/spring-boot-restclient-test-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-test-autoconfigure/4.0.0-M1/spring-boot-test-autoconfigure-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-web-server-test/4.0.0-M1/spring-boot-web-server-test-4.0.0-M1.jar:/Users/od/.m2/repository/com/jayway/jsonpath/json-path/2.9.0/json-path-2.9.0.jar:/Users/od/.m2/repository/org/slf4j/slf4j-api/2.0.17/slf4j-api-2.0.17.jar:/Users/od/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/4.0.2/jakarta.xml.bind-api-4.0.2.jar:/Users/od/.m2/repository/jakarta/activation/jakarta.activation-api/2.1.3/jakarta.activation-api-2.1.3.jar:/Users/od/.m2/repository/net/minidev/json-smart/2.5.2/json-smart-2.5.2.jar:/Users/od/.m2/repository/net/minidev/accessors-smart/2.5.2/accessors-smart-2.5.2.jar:/Users/od/.m2/repository/org/ow2/asm/asm/9.7.1/asm-9.7.1.jar:/Users/od/.m2/repository/org/assertj/assertj-core/3.27.3/assertj-core-3.27.3.jar:/Users/od/.m2/repository/net/bytebuddy/byte-buddy/1.17.6/byte-buddy-1.17.6.jar:/Users/od/.m2/repository/org/awaitility/awaitility/4.3.0/awaitility-4.3.0.jar:/Users/od/.m2/repository/org/hamcrest/hamcrest/3.0/hamcrest-3.0.jar:/Users/od/.m2/repository/org/junit/jupiter/junit-jupiter/5.13.4/junit-jupiter-5.13.4.jar:/Users/od/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.13.4/junit-jupiter-api-5.13.4.jar:/Users/od/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/od/.m2/repository/org/junit/platform/junit-platform-commons/1.13.4/junit-platform-commons-1.13.4.jar:/Users/od/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/od/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.13.4/junit-jupiter-params-5.13.4.jar:/Users/od/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.13.4/junit-jupiter-engine-5.13.4.jar:/Users/od/.m2/repository/org/junit/platform/junit-platform-engine/1.13.4/junit-platform-engine-1.13.4.jar:/Users/od/.m2/repository/org/mockito/mockito-core/5.18.0/mockito-core-5.18.0.jar:/Users/od/.m2/repository/net/bytebuddy/byte-buddy-agent/1.17.6/byte-buddy-agent-1.17.6.jar:/Users/od/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/Users/od/.m2/repository/org/mockito/mockito-junit-jupiter/5.18.0/mockito-junit-jupiter-5.18.0.jar:/Users/od/.m2/repository/org/skyscreamer/jsonassert/1.5.3/jsonassert-1.5.3.jar:/Users/od/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar:/Users/od/.m2/repository/org/springframework/spring-core/7.0.0-M7/spring-core-7.0.0-M7.jar:/Users/od/.m2/repository/commons-logging/commons-logging/1.3.5/commons-logging-1.3.5.jar:/Users/od/.m2/repository/org/springframework/spring-test/7.0.0-M7/spring-test-7.0.0-M7.jar:/Users/od/.m2/repository/org/xmlunit/xmlunit-core/2.10.3/xmlunit-core-2.10.3.jar:/Users/od/.m2/repository/org/springframework/security/spring-security-test/7.0.0-M1/spring-security-test-7.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/security/spring-security-core/7.0.0-M1/spring-security-core-7.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/security/spring-security-crypto/7.0.0-M1/spring-security-crypto-7.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/spring-expression/7.0.0-M7/spring-expression-7.0.0-M7.jar:/Users/od/.m2/repository/org/springframework/security/spring-security-web/7.0.0-M1/spring-security-web-7.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/spring-web/7.0.0-M7/spring-web-7.0.0-M7.jar:"/>
+    <property name="java.vm.vendor" value="Homebrew"/>
+    <property name="sun.arch.data.model" value="64"/>
+    <property name="java.vendor.url" value="https://github.com/Homebrew/homebrew-core/issues"/>
+    <property name="user.timezone" value="America/New_York"/>
+    <property name="org.jboss.logging.provider" value="slf4j"/>
+    <property name="os.name" value="Mac OS X"/>
+    <property name="java.vm.specification.version" value="24"/>
+    <property name="sun.java.launcher" value="SUN_STANDARD"/>
+    <property name="user.country" value="US"/>
+    <property name="sun.boot.library.path" value="/opt/homebrew/Cellar/openjdk/24.0.1/libexec/openjdk.jdk/Contents/Home/lib"/>
+    <property name="sun.java.command" value="/Users/od/Documents/github/ecs-deployment-automation/spring-boot-examples/spring-boot-web-application/target/surefire/surefirebooter-20260312142203374_3.jar /Users/od/Documents/github/ecs-deployment-automation/spring-boot-examples/spring-boot-web-application/target/surefire 2026-03-12T14-22-03_334-jvmRun1 surefire-20260312142203374_1tmp surefire_0-20260312142203374_2tmp"/>
+    <property name="http.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="jdk.debug" value="release"/>
+    <property name="surefire.test.class.path" value="/Users/od/Documents/github/ecs-deployment-automation/spring-boot-examples/spring-boot-web-application/target/test-classes:/Users/od/Documents/github/ecs-deployment-automation/spring-boot-examples/spring-boot-web-application/target/classes:/Users/od/.m2/repository/org/springframework/boot/spring-boot-starter-actuator/4.0.0-M1/spring-boot-starter-actuator-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-starter/4.0.0-M1/spring-boot-starter-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-starter-logging/4.0.0-M1/spring-boot-starter-logging-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-starter-logback/4.0.0-M1/spring-boot-starter-logback-4.0.0-M1.jar:/Users/od/.m2/repository/ch/qos/logback/logback-classic/1.5.18/logback-classic-1.5.18.jar:/Users/od/.m2/repository/ch/qos/logback/logback-core/1.5.18/logback-core-1.5.18.jar:/Users/od/.m2/repository/org/apache/logging/log4j/log4j-to-slf4j/2.24.3/log4j-to-slf4j-2.24.3.jar:/Users/od/.m2/repository/org/apache/logging/log4j/log4j-api/2.24.3/log4j-api-2.24.3.jar:/Users/od/.m2/repository/org/slf4j/jul-to-slf4j/2.0.17/jul-to-slf4j-2.0.17.jar:/Users/od/.m2/repository/jakarta/annotation/jakarta.annotation-api/3.0.0/jakarta.annotation-api-3.0.0.jar:/Users/od/.m2/repository/org/yaml/snakeyaml/2.4/snakeyaml-2.4.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-actuator-autoconfigure/4.0.0-M1/spring-boot-actuator-autoconfigure-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-actuator/4.0.0-M1/spring-boot-actuator-4.0.0-M1.jar:/Users/od/.m2/repository/com/fasterxml/jackson/core/jackson-databind/2.19.2/jackson-databind-2.19.2.jar:/Users/od/.m2/repository/com/fasterxml/jackson/core/jackson-annotations/2.19.2/jackson-annotations-2.19.2.jar:/Users/od/.m2/repository/com/fasterxml/jackson/core/jackson-core/2.19.2/jackson-core-2.19.2.jar:/Users/od/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jsr310/2.19.2/jackson-datatype-jsr310-2.19.2.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-health/4.0.0-M1/spring-boot-health-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-metrics/4.0.0-M1/spring-boot-metrics-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-observation/4.0.0-M1/spring-boot-observation-4.0.0-M1.jar:/Users/od/.m2/repository/io/micrometer/micrometer-core/1.16.0-M1/micrometer-core-1.16.0-M1.jar:/Users/od/.m2/repository/org/hdrhistogram/HdrHistogram/2.2.2/HdrHistogram-2.2.2.jar:/Users/od/.m2/repository/org/latencyutils/LatencyUtils/2.0.3/LatencyUtils-2.0.3.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-tracing/4.0.0-M1/spring-boot-tracing-4.0.0-M1.jar:/Users/od/.m2/repository/io/micrometer/micrometer-tracing/1.6.0-M1/micrometer-tracing-1.6.0-M1.jar:/Users/od/.m2/repository/io/micrometer/context-propagation/1.1.3/context-propagation-1.1.3.jar:/Users/od/.m2/repository/io/micrometer/micrometer-observation/1.16.0-M1/micrometer-observation-1.16.0-M1.jar:/Users/od/.m2/repository/org/jspecify/jspecify/1.0.0/jspecify-1.0.0.jar:/Users/od/.m2/repository/io/micrometer/micrometer-commons/1.16.0-M1/micrometer-commons-1.16.0-M1.jar:/Users/od/.m2/repository/io/micrometer/micrometer-jakarta9/1.16.0-M1/micrometer-jakarta9-1.16.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-starter-web/4.0.0-M1/spring-boot-starter-web-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-starter-webmvc/4.0.0-M1/spring-boot-starter-webmvc-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-starter-json/4.0.0-M1/spring-boot-starter-json-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-starter-jackson/4.0.0-M1/spring-boot-starter-jackson-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-jackson/4.0.0-M1/spring-boot-jackson-4.0.0-M1.jar:/Users/od/.m2/repository/com/fasterxml/jackson/datatype/jackson-datatype-jdk8/2.19.2/jackson-datatype-jdk8-2.19.2.jar:/Users/od/.m2/repository/com/fasterxml/jackson/module/jackson-module-parameter-names/2.19.2/jackson-module-parameter-names-2.19.2.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-starter-tomcat/4.0.0-M1/spring-boot-starter-tomcat-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-tomcat/4.0.0-M1/spring-boot-tomcat-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-web-server/4.0.0-M1/spring-boot-web-server-4.0.0-M1.jar:/Users/od/.m2/repository/org/apache/tomcat/embed/tomcat-embed-websocket/11.0.9/tomcat-embed-websocket-11.0.9.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-http-converter/4.0.0-M1/spring-boot-http-converter-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-webmvc/4.0.0-M1/spring-boot-webmvc-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-servlet/4.0.0-M1/spring-boot-servlet-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/spring-webmvc/7.0.0-M7/spring-webmvc-7.0.0-M7.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-starter-security/4.0.0-M1/spring-boot-starter-security-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-security/4.0.0-M1/spring-boot-security-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/security/spring-security-config/7.0.0-M1/spring-security-config-7.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/spring-aop/7.0.0-M7/spring-aop-7.0.0-M7.jar:/Users/od/.m2/repository/org/springframework/spring-beans/7.0.0-M7/spring-beans-7.0.0-M7.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-starter-data-jpa/4.0.0-M1/spring-boot-starter-data-jpa-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-starter-jdbc/4.0.0-M1/spring-boot-starter-jdbc-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-jdbc/4.0.0-M1/spring-boot-jdbc-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-sql/4.0.0-M1/spring-boot-sql-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/spring-jdbc/7.0.0-M7/spring-jdbc-7.0.0-M7.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-tx/4.0.0-M1/spring-boot-tx-4.0.0-M1.jar:/Users/od/.m2/repository/com/zaxxer/HikariCP/6.3.1/HikariCP-6.3.1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-data-jpa/4.0.0-M1/spring-boot-data-jpa-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-data-commons/4.0.0-M1/spring-boot-data-commons-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/data/spring-data-commons/4.0.0-M4/spring-data-commons-4.0.0-M4.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-hibernate/4.0.0-M1/spring-boot-hibernate-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-jpa/4.0.0-M1/spring-boot-jpa-4.0.0-M1.jar:/Users/od/.m2/repository/jakarta/persistence/jakarta.persistence-api/3.2.0/jakarta.persistence-api-3.2.0.jar:/Users/od/.m2/repository/org/hibernate/orm/hibernate-core/7.0.7.Final/hibernate-core-7.0.7.Final.jar:/Users/od/.m2/repository/jakarta/transaction/jakarta.transaction-api/2.0.1/jakarta.transaction-api-2.0.1.jar:/Users/od/.m2/repository/org/hibernate/models/hibernate-models/1.0.0/hibernate-models-1.0.0.jar:/Users/od/.m2/repository/org/glassfish/jaxb/jaxb-runtime/4.0.5/jaxb-runtime-4.0.5.jar:/Users/od/.m2/repository/org/glassfish/jaxb/jaxb-core/4.0.5/jaxb-core-4.0.5.jar:/Users/od/.m2/repository/org/eclipse/angus/angus-activation/2.0.2/angus-activation-2.0.2.jar:/Users/od/.m2/repository/org/glassfish/jaxb/txw2/4.0.5/txw2-4.0.5.jar:/Users/od/.m2/repository/com/sun/istack/istack-commons-runtime/4.1.2/istack-commons-runtime-4.1.2.jar:/Users/od/.m2/repository/jakarta/inject/jakarta.inject-api/2.0.1/jakarta.inject-api-2.0.1.jar:/Users/od/.m2/repository/org/springframework/spring-orm/7.0.0-M7/spring-orm-7.0.0-M7.jar:/Users/od/.m2/repository/org/springframework/data/spring-data-jpa/4.0.0-M4/spring-data-jpa-4.0.0-M4.jar:/Users/od/.m2/repository/org/springframework/spring-tx/7.0.0-M7/spring-tx-7.0.0-M7.jar:/Users/od/.m2/repository/org/antlr/antlr4-runtime/4.13.2/antlr4-runtime-4.13.2.jar:/Users/od/.m2/repository/org/springframework/spring-aspects/7.0.0-M7/spring-aspects-7.0.0-M7.jar:/Users/od/.m2/repository/org/aspectj/aspectjweaver/1.9.24/aspectjweaver-1.9.24.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-starter-validation/4.0.0-M1/spring-boot-starter-validation-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-validation/4.0.0-M1/spring-boot-validation-4.0.0-M1.jar:/Users/od/.m2/repository/org/hibernate/validator/hibernate-validator/9.0.1.Final/hibernate-validator-9.0.1.Final.jar:/Users/od/.m2/repository/jakarta/validation/jakarta.validation-api/3.1.1/jakarta.validation-api-3.1.1.jar:/Users/od/.m2/repository/org/jboss/logging/jboss-logging/3.6.1.Final/jboss-logging-3.6.1.Final.jar:/Users/od/.m2/repository/com/fasterxml/classmate/1.7.0/classmate-1.7.0.jar:/Users/od/.m2/repository/com/h2database/h2/2.3.232/h2-2.3.232.jar:/Users/od/.m2/repository/org/apache/tomcat/embed/tomcat-embed-jasper/11.0.9/tomcat-embed-jasper-11.0.9.jar:/Users/od/.m2/repository/org/apache/tomcat/embed/tomcat-embed-core/11.0.9/tomcat-embed-core-11.0.9.jar:/Users/od/.m2/repository/org/apache/tomcat/tomcat-annotations-api/11.0.9/tomcat-annotations-api-11.0.9.jar:/Users/od/.m2/repository/org/apache/tomcat/embed/tomcat-embed-el/11.0.9/tomcat-embed-el-11.0.9.jar:/Users/od/.m2/repository/org/eclipse/jdt/ecj/3.42.0/ecj-3.42.0.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-devtools/4.0.0-M1/spring-boot-devtools-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot/4.0.0-M1/spring-boot-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/spring-context/7.0.0-M7/spring-context-7.0.0-M7.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-autoconfigure/4.0.0-M1/spring-boot-autoconfigure-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-starter-test/4.0.0-M1/spring-boot-starter-test-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-test/4.0.0-M1/spring-boot-test-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-restclient-test/4.0.0-M1/spring-boot-restclient-test-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-test-autoconfigure/4.0.0-M1/spring-boot-test-autoconfigure-4.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/boot/spring-boot-web-server-test/4.0.0-M1/spring-boot-web-server-test-4.0.0-M1.jar:/Users/od/.m2/repository/com/jayway/jsonpath/json-path/2.9.0/json-path-2.9.0.jar:/Users/od/.m2/repository/org/slf4j/slf4j-api/2.0.17/slf4j-api-2.0.17.jar:/Users/od/.m2/repository/jakarta/xml/bind/jakarta.xml.bind-api/4.0.2/jakarta.xml.bind-api-4.0.2.jar:/Users/od/.m2/repository/jakarta/activation/jakarta.activation-api/2.1.3/jakarta.activation-api-2.1.3.jar:/Users/od/.m2/repository/net/minidev/json-smart/2.5.2/json-smart-2.5.2.jar:/Users/od/.m2/repository/net/minidev/accessors-smart/2.5.2/accessors-smart-2.5.2.jar:/Users/od/.m2/repository/org/ow2/asm/asm/9.7.1/asm-9.7.1.jar:/Users/od/.m2/repository/org/assertj/assertj-core/3.27.3/assertj-core-3.27.3.jar:/Users/od/.m2/repository/net/bytebuddy/byte-buddy/1.17.6/byte-buddy-1.17.6.jar:/Users/od/.m2/repository/org/awaitility/awaitility/4.3.0/awaitility-4.3.0.jar:/Users/od/.m2/repository/org/hamcrest/hamcrest/3.0/hamcrest-3.0.jar:/Users/od/.m2/repository/org/junit/jupiter/junit-jupiter/5.13.4/junit-jupiter-5.13.4.jar:/Users/od/.m2/repository/org/junit/jupiter/junit-jupiter-api/5.13.4/junit-jupiter-api-5.13.4.jar:/Users/od/.m2/repository/org/opentest4j/opentest4j/1.3.0/opentest4j-1.3.0.jar:/Users/od/.m2/repository/org/junit/platform/junit-platform-commons/1.13.4/junit-platform-commons-1.13.4.jar:/Users/od/.m2/repository/org/apiguardian/apiguardian-api/1.1.2/apiguardian-api-1.1.2.jar:/Users/od/.m2/repository/org/junit/jupiter/junit-jupiter-params/5.13.4/junit-jupiter-params-5.13.4.jar:/Users/od/.m2/repository/org/junit/jupiter/junit-jupiter-engine/5.13.4/junit-jupiter-engine-5.13.4.jar:/Users/od/.m2/repository/org/junit/platform/junit-platform-engine/1.13.4/junit-platform-engine-1.13.4.jar:/Users/od/.m2/repository/org/mockito/mockito-core/5.18.0/mockito-core-5.18.0.jar:/Users/od/.m2/repository/net/bytebuddy/byte-buddy-agent/1.17.6/byte-buddy-agent-1.17.6.jar:/Users/od/.m2/repository/org/objenesis/objenesis/3.3/objenesis-3.3.jar:/Users/od/.m2/repository/org/mockito/mockito-junit-jupiter/5.18.0/mockito-junit-jupiter-5.18.0.jar:/Users/od/.m2/repository/org/skyscreamer/jsonassert/1.5.3/jsonassert-1.5.3.jar:/Users/od/.m2/repository/com/vaadin/external/google/android-json/0.0.20131108.vaadin1/android-json-0.0.20131108.vaadin1.jar:/Users/od/.m2/repository/org/springframework/spring-core/7.0.0-M7/spring-core-7.0.0-M7.jar:/Users/od/.m2/repository/commons-logging/commons-logging/1.3.5/commons-logging-1.3.5.jar:/Users/od/.m2/repository/org/springframework/spring-test/7.0.0-M7/spring-test-7.0.0-M7.jar:/Users/od/.m2/repository/org/xmlunit/xmlunit-core/2.10.3/xmlunit-core-2.10.3.jar:/Users/od/.m2/repository/org/springframework/security/spring-security-test/7.0.0-M1/spring-security-test-7.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/security/spring-security-core/7.0.0-M1/spring-security-core-7.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/security/spring-security-crypto/7.0.0-M1/spring-security-crypto-7.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/spring-expression/7.0.0-M7/spring-expression-7.0.0-M7.jar:/Users/od/.m2/repository/org/springframework/security/spring-security-web/7.0.0-M1/spring-security-web-7.0.0-M1.jar:/Users/od/.m2/repository/org/springframework/spring-web/7.0.0-M7/spring-web-7.0.0-M7.jar:"/>
+    <property name="sun.cpu.endian" value="little"/>
+    <property name="user.home" value="/Users/od"/>
+    <property name="user.language" value="en"/>
+    <property name="java.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.version.date" value="2025-04-15"/>
+    <property name="java.home" value="/opt/homebrew/Cellar/openjdk/24.0.1/libexec/openjdk.jdk/Contents/Home"/>
+    <property name="file.separator" value="/"/>
+    <property name="basedir" value="/Users/od/Documents/github/ecs-deployment-automation/spring-boot-examples/spring-boot-web-application"/>
+    <property name="java.vm.compressedOopsMode" value="Zero based"/>
+    <property name="line.separator" value="&#10;"/>
+    <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
+    <property name="java.specification.name" value="Java Platform API Specification"/>
+    <property name="FILE_LOG_CHARSET" value="UTF-8"/>
+    <property name="java.awt.headless" value="true"/>
+    <property name="apple.awt.application.name" value="ForkedBooter"/>
+    <property name="surefire.real.class.path" value="/Users/od/Documents/github/ecs-deployment-automation/spring-boot-examples/spring-boot-web-application/target/surefire/surefirebooter-20260312142203374_3.jar"/>
+    <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
+    <property name="ftp.nonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="java.runtime.version" value="24.0.1"/>
+    <property name="LOG_CORRELATION_PATTERN" value="%correlationId"/>
+    <property name="user.name" value="od"/>
+    <property name="stdout.encoding" value="UTF-8"/>
+    <property name="path.separator" value=":"/>
+    <property name="os.version" value="15.0.1"/>
+    <property name="java.runtime.name" value="OpenJDK Runtime Environment"/>
+    <property name="file.encoding" value="UTF-8"/>
+    <property name="java.vm.name" value="OpenJDK 64-Bit Server VM"/>
+    <property name="java.vendor.version" value="Homebrew"/>
+    <property name="localRepository" value="/Users/od/.m2/repository"/>
+    <property name="java.vendor.url.bug" value="https://github.com/Homebrew/homebrew-core/issues"/>
+    <property name="java.io.tmpdir" value="/var/folders/bn/_0nsyz1d7qd125mtsfcjf3740000gn/T/"/>
+    <property name="com.zaxxer.hikari.pool_number" value="1"/>
+    <property name="java.version" value="24.0.1"/>
+    <property name="user.dir" value="/Users/od/Documents/github/ecs-deployment-automation/spring-boot-examples/spring-boot-web-application"/>
+    <property name="os.arch" value="aarch64"/>
+    <property name="java.vm.specification.name" value="Java Virtual Machine Specification"/>
+    <property name="PID" value="12146"/>
+    <property name="CONSOLE_LOG_CHARSET" value="UTF-8"/>
+    <property name="native.encoding" value="UTF-8"/>
+    <property name="java.library.path" value="/Users/od/Library/Java/Extensions:/Library/Java/Extensions:/Network/Library/Java/Extensions:/System/Library/Java/Extensions:/usr/lib/java:."/>
+    <property name="java.vm.info" value="mixed mode, sharing"/>
+    <property name="stderr.encoding" value="UTF-8"/>
+    <property name="java.vendor" value="Homebrew"/>
+    <property name="java.vm.version" value="24.0.1"/>
+    <property name="sun.io.unicode.encoding" value="UnicodeBig"/>
+    <property name="socksNonProxyHosts" value="local|*.local|169.254/16|*.169.254/16"/>
+    <property name="java.class.version" value="68.0"/>
+  </properties>
+  <testcase name="studentProfileIncludesEnrollments" classname="com.in28minutes.springboot.controller.StudentControllerTest" time="0.519">
+    <system-out><![CDATA[14:22:03.782 [main] INFO org.springframework.test.context.support.AnnotationConfigContextLoaderUtils -- Could not detect default configuration classes for test class [com.in28minutes.springboot.controller.StudentControllerTest]: StudentControllerTest does not declare any static, non-private, non-final, nested classes annotated with @Configuration.
+14:22:03.851 [main] INFO org.springframework.boot.test.context.SpringBootTestContextBootstrapper -- Found @SpringBootConfiguration com.in28minutes.springboot.StudentServicesApplication for test class com.in28minutes.springboot.controller.StudentControllerTest
+14:22:03.905 [main] INFO org.springframework.boot.devtools.restart.RestartApplicationListener -- Restart disabled due to context in which it is running
+
+  .   ____          _            __ _ _
+ /\\ / ___'_ __ _ _(_)_ __  __ _ \ \ \ \
+( ( )\___ | '_ | '_| | '_ \/ _` | \ \ \ \
+ \\/  ___)| |_)| | | | | || (_| |  ) ) ) )
+  '  |____| .__|_| |_|_| |_\__, | / / / /
+ =========|_|==============|___/=/_/_/_/
+
+ :: Spring Boot ::             (v4.0.0-M1)
+
+2026-03-12T14:22:04.003-04:00  INFO 12146 --- [           main] [                                                 ] c.i.s.controller.StudentControllerTest   : Starting StudentControllerTest using Java 24.0.1 with PID 12146 (started by od in /Users/od/Documents/github/ecs-deployment-automation/spring-boot-examples/spring-boot-web-application)
+2026-03-12T14:22:04.004-04:00  INFO 12146 --- [           main] [                                                 ] c.i.s.controller.StudentControllerTest   : No active profile set, falling back to 1 default profile: "default"
+2026-03-12T14:22:04.347-04:00  INFO 12146 --- [           main] [                                                 ] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2026-03-12T14:22:04.374-04:00  INFO 12146 --- [           main] [                                                 ] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 22 ms. Found 3 JPA repository interfaces.
+2026-03-12T14:22:04.598-04:00  INFO 12146 --- [           main] [                                                 ] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2026-03-12T14:22:04.613-04:00  INFO 12146 --- [           main] [                                                 ] org.hibernate.Version                    : HHH000412: Hibernate ORM core version 7.0.7.Final
+2026-03-12T14:22:04.773-04:00  INFO 12146 --- [           main] [                                                 ] o.s.o.j.p.SpringPersistenceUnitInfo      : No LoadTimeWeaver setup: ignoring JPA class transformer
+2026-03-12T14:22:04.786-04:00  INFO 12146 --- [           main] [                                                 ] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2026-03-12T14:22:04.853-04:00  INFO 12146 --- [           main] [                                                 ] com.zaxxer.hikari.pool.HikariPool        : HikariPool-1 - Added connection conn0: url=jdbc:h2:mem:studentdb user=SA
+2026-03-12T14:22:04.854-04:00  INFO 12146 --- [           main] [                                                 ] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2026-03-12T14:22:04.862-04:00  WARN 12146 --- [           main] [                                                 ] org.hibernate.orm.deprecation            : HHH90000025: H2Dialect does not need to be specified explicitly using 'hibernate.dialect' (remove the property setting and it will be selected by default)
+2026-03-12T14:22:04.870-04:00  INFO 12146 --- [           main] [                                                 ] org.hibernate.orm.connections.pooling    : HHH10001005: Database info:
+	Database JDBC URL [jdbc:h2:mem:studentdb]
+	Database driver: H2 JDBC Driver
+	Database version: 2.3.232
+	Autocommit mode: undefined/unknown
+	Isolation level: READ_COMMITTED [default READ_COMMITTED]
+	Pool: DatasourceConnectionProviderImpl
+	Minimum pool size: undefined/unknown
+	Maximum pool size: undefined/unknown
+2026-03-12T14:22:05.223-04:00  INFO 12146 --- [           main] [                                                 ] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000489: No JTA platform available (set 'hibernate.transaction.jta.platform' to enable JTA platform integration)
+Hibernate: create table courses (id bigint generated by default as identity, credits integer not null, description varchar(2000), name varchar(255) not null, primary key (id))
+Hibernate: create table enrollments (id bigint generated by default as identity, enrolled_at timestamp(6), grade float(53), status enum ('COMPLETED','DROPPED','ENROLLED'), course_id bigint not null, student_id bigint not null, primary key (id))
+Hibernate: create table students (id bigint generated by default as identity, age integer not null check ((age>=16) and (age<=120)), bio varchar(1000), email varchar(255) not null, gpa float(53) not null, name varchar(100) not null, password varchar(255) not null, role enum ('ADMIN','STUDENT'), username varchar(255) not null, primary key (id))
+Hibernate: alter table if exists courses drop constraint if exists UK5o6x4fpafbywj4v2g0owhh11r
+Hibernate: alter table if exists courses add constraint UK5o6x4fpafbywj4v2g0owhh11r unique (name)
+Hibernate: alter table if exists enrollments drop constraint if exists UKi0g6mfijtuh199nj653nva6j5
+Hibernate: alter table if exists enrollments add constraint UKi0g6mfijtuh199nj653nva6j5 unique (student_id, course_id)
+Hibernate: alter table if exists students drop constraint if exists UKe2rndfrsx22acpq2ty1caeuyw
+Hibernate: alter table if exists students add constraint UKe2rndfrsx22acpq2ty1caeuyw unique (email)
+Hibernate: alter table if exists students drop constraint if exists UKakwqgcdnid3qo41cqpdu4ke01
+Hibernate: alter table if exists students add constraint UKakwqgcdnid3qo41cqpdu4ke01 unique (username)
+Hibernate: alter table if exists enrollments add constraint FKho8mcicp4196ebpltdn9wl6co foreign key (course_id) references courses
+Hibernate: alter table if exists enrollments add constraint FK8kf1u1857xgo56xbfmnif2c51 foreign key (student_id) references students
+2026-03-12T14:22:05.253-04:00  INFO 12146 --- [           main] [                                                 ] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2026-03-12T14:22:05.285-04:00  INFO 12146 --- [           main] [                                                 ] o.s.d.j.r.query.QueryEnhancerFactories   : Hibernate is in classpath; If applicable, HQL parser will be used.
+2026-03-12T14:22:05.417-04:00  WARN 12146 --- [           main] [                                                 ] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2026-03-12T14:22:05.460-04:00  INFO 12146 --- [           main] [                                                 ] r$InitializeUserDetailsManagerConfigurer : Global AuthenticationManager configured with UserDetailsService bean with name studentDetailsService
+2026-03-12T14:22:05.692-04:00  INFO 12146 --- [           main] [                                                 ] o.s.b.t.m.w.SpringBootMockServletContext : Initializing Spring TestDispatcherServlet ''
+2026-03-12T14:22:05.692-04:00  INFO 12146 --- [           main] [                                                 ] o.s.t.web.servlet.TestDispatcherServlet  : Initializing Servlet ''
+2026-03-12T14:22:05.699-04:00  INFO 12146 --- [           main] [                                                 ] o.s.b.a.e.web.EndpointLinksResolver      : Exposing 1 endpoint beneath base path '/actuator'
+2026-03-12T14:22:05.704-04:00  INFO 12146 --- [           main] [                                                 ] o.s.t.web.servlet.TestDispatcherServlet  : Completed initialization in 12 ms
+2026-03-12T14:22:05.745-04:00  INFO 12146 --- [           main] [                                                 ] c.i.s.controller.StudentControllerTest   : Started StudentControllerTest in 1.844 seconds (process running for 2.315)
+Hibernate: select count(*) from students s1_0
+Hibernate: insert into students (age,bio,email,gpa,name,password,role,username,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into students (age,bio,email,gpa,name,password,role,username,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into students (age,bio,email,gpa,name,password,role,username,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into students (age,bio,email,gpa,name,password,role,username,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into students (age,bio,email,gpa,name,password,role,username,id) values (?,?,?,?,?,?,?,?,default)
+Hibernate: insert into courses (credits,description,name,id) values (?,?,?,default)
+Hibernate: insert into courses (credits,description,name,id) values (?,?,?,default)
+Hibernate: insert into courses (credits,description,name,id) values (?,?,?,default)
+Hibernate: insert into courses (credits,description,name,id) values (?,?,?,default)
+Hibernate: insert into courses (credits,description,name,id) values (?,?,?,default)
+Hibernate: insert into courses (credits,description,name,id) values (?,?,?,default)
+Hibernate: insert into enrollments (course_id,enrolled_at,grade,status,student_id,id) values (?,?,?,?,?,default)
+Hibernate: insert into enrollments (course_id,enrolled_at,grade,status,student_id,id) values (?,?,?,?,?,default)
+Hibernate: insert into enrollments (course_id,enrolled_at,grade,status,student_id,id) values (?,?,?,?,?,default)
+Hibernate: insert into enrollments (course_id,enrolled_at,grade,status,student_id,id) values (?,?,?,?,?,default)
+Hibernate: insert into enrollments (course_id,enrolled_at,grade,status,student_id,id) values (?,?,?,?,?,default)
+Hibernate: insert into enrollments (course_id,enrolled_at,grade,status,student_id,id) values (?,?,?,?,?,default)
+Hibernate: insert into enrollments (course_id,enrolled_at,grade,status,student_id,id) values (?,?,?,?,?,default)
+Hibernate: insert into enrollments (course_id,enrolled_at,grade,status,student_id,id) values (?,?,?,?,?,default)
+Hibernate: insert into enrollments (course_id,enrolled_at,grade,status,student_id,id) values (?,?,?,?,?,default)
+Hibernate: insert into enrollments (course_id,enrolled_at,grade,status,student_id,id) values (?,?,?,?,?,default)
+Hibernate: insert into enrollments (course_id,enrolled_at,grade,status,student_id,id) values (?,?,?,?,?,default)
+Hibernate: insert into enrollments (course_id,enrolled_at,grade,status,student_id,id) values (?,?,?,?,?,default)
+Hibernate: select s1_0.id,s1_0.age,s1_0.bio,s1_0.email,s1_0.gpa,s1_0.name,s1_0.password,s1_0.role,s1_0.username from students s1_0
+Hibernate: select s1_0.id,s1_0.age,s1_0.bio,s1_0.email,s1_0.gpa,s1_0.name,s1_0.password,s1_0.role,s1_0.username from students s1_0 where s1_0.username=?
+Hibernate: select s1_0.id,s1_0.age,s1_0.bio,s1_0.email,s1_0.gpa,s1_0.name,s1_0.password,s1_0.role,s1_0.username from students s1_0 where s1_0.username=?
+Hibernate: select e1_0.student_id,e1_0.id,e1_0.course_id,e1_0.enrolled_at,e1_0.grade,e1_0.status from enrollments e1_0 where e1_0.student_id=?
+Hibernate: select c1_0.id,c1_0.credits,c1_0.description,c1_0.name from courses c1_0 where c1_0.id=?
+Hibernate: select c1_0.id,c1_0.credits,c1_0.description,c1_0.name from courses c1_0 where c1_0.id=?
+Hibernate: select c1_0.id,c1_0.credits,c1_0.description,c1_0.name from courses c1_0 where c1_0.id=?
+]]></system-out>
+    <system-err><![CDATA[Mockito is currently self-attaching to enable the inline-mock-maker. This will no longer work in future releases of the JDK. Please add Mockito as an agent to your build as described in Mockito's documentation: https://javadoc.io/doc/org.mockito/mockito-core/latest/org.mockito/org/mockito/Mockito.html#0.3
+WARNING: A Java agent has been loaded dynamically (/Users/od/.m2/repository/net/bytebuddy/byte-buddy-agent/1.17.6/byte-buddy-agent-1.17.6.jar)
+WARNING: If a serviceability tool is in use, please run with -XX:+EnableDynamicAgentLoading to hide this warning
+WARNING: If a serviceability tool is not in use, please run with -Djdk.instrument.traceUsage for more information
+WARNING: Dynamic loading of agents will be disallowed by default in a future release
+]]></system-err>
+  </testcase>
+  <testcase name="getMyProfile" classname="com.in28minutes.springboot.controller.StudentControllerTest" time="0.071">
+    <system-out><![CDATA[Hibernate: select s1_0.id,s1_0.age,s1_0.bio,s1_0.email,s1_0.gpa,s1_0.name,s1_0.password,s1_0.role,s1_0.username from students s1_0 where s1_0.username=?
+Hibernate: select s1_0.id,s1_0.age,s1_0.bio,s1_0.email,s1_0.gpa,s1_0.name,s1_0.password,s1_0.role,s1_0.username from students s1_0 where s1_0.username=?
+Hibernate: select e1_0.student_id,e1_0.id,e1_0.course_id,e1_0.enrolled_at,e1_0.grade,e1_0.status from enrollments e1_0 where e1_0.student_id=?
+Hibernate: select c1_0.id,c1_0.credits,c1_0.description,c1_0.name from courses c1_0 where c1_0.id=?
+Hibernate: select c1_0.id,c1_0.credits,c1_0.description,c1_0.name from courses c1_0 where c1_0.id=?
+Hibernate: select c1_0.id,c1_0.credits,c1_0.description,c1_0.name from courses c1_0 where c1_0.id=?
+]]></system-out>
+  </testcase>
+  <testcase name="getAllStudentsWithAuth" classname="com.in28minutes.springboot.controller.StudentControllerTest" time="0.075">
+    <system-out><![CDATA[Hibernate: select s1_0.id,s1_0.age,s1_0.bio,s1_0.email,s1_0.gpa,s1_0.name,s1_0.password,s1_0.role,s1_0.username from students s1_0 where s1_0.username=?
+Hibernate: select s1_0.id,s1_0.age,s1_0.bio,s1_0.email,s1_0.gpa,s1_0.name,s1_0.password,s1_0.role,s1_0.username from students s1_0
+Hibernate: select e1_0.student_id,e1_0.id,e1_0.course_id,e1_0.enrolled_at,e1_0.grade,e1_0.status from enrollments e1_0 where e1_0.student_id=?
+Hibernate: select e1_0.student_id,e1_0.id,e1_0.course_id,e1_0.enrolled_at,e1_0.grade,e1_0.status from enrollments e1_0 where e1_0.student_id=?
+Hibernate: select c1_0.id,c1_0.credits,c1_0.description,c1_0.name from courses c1_0 where c1_0.id=?
+Hibernate: select c1_0.id,c1_0.credits,c1_0.description,c1_0.name from courses c1_0 where c1_0.id=?
+Hibernate: select c1_0.id,c1_0.credits,c1_0.description,c1_0.name from courses c1_0 where c1_0.id=?
+Hibernate: select e1_0.student_id,e1_0.id,e1_0.course_id,e1_0.enrolled_at,e1_0.grade,e1_0.status from enrollments e1_0 where e1_0.student_id=?
+Hibernate: select c1_0.id,c1_0.credits,c1_0.description,c1_0.name from courses c1_0 where c1_0.id=?
+Hibernate: select c1_0.id,c1_0.credits,c1_0.description,c1_0.name from courses c1_0 where c1_0.id=?
+Hibernate: select e1_0.student_id,e1_0.id,e1_0.course_id,e1_0.enrolled_at,e1_0.grade,e1_0.status from enrollments e1_0 where e1_0.student_id=?
+Hibernate: select c1_0.id,c1_0.credits,c1_0.description,c1_0.name from courses c1_0 where c1_0.id=?
+Hibernate: select e1_0.student_id,e1_0.id,e1_0.course_id,e1_0.enrolled_at,e1_0.grade,e1_0.status from enrollments e1_0 where e1_0.student_id=?
+]]></system-out>
+  </testcase>
+  <testcase name="getStudentByIdNotFound" classname="com.in28minutes.springboot.controller.StudentControllerTest" time="0.073">
+    <system-out><![CDATA[Hibernate: select s1_0.id,s1_0.age,s1_0.bio,s1_0.email,s1_0.gpa,s1_0.name,s1_0.password,s1_0.role,s1_0.username from students s1_0 where s1_0.username=?
+Hibernate: select s1_0.id,s1_0.age,s1_0.bio,s1_0.email,s1_0.gpa,s1_0.name,s1_0.password,s1_0.role,s1_0.username from students s1_0 where s1_0.id=?
+]]></system-out>
+  </testcase>
+  <testcase name="deleteStudentAsStudentForbidden" classname="com.in28minutes.springboot.controller.StudentControllerTest" time="0.067">
+    <system-out><![CDATA[Hibernate: select s1_0.id,s1_0.age,s1_0.bio,s1_0.email,s1_0.gpa,s1_0.name,s1_0.password,s1_0.role,s1_0.username from students s1_0 where s1_0.username=?
+]]></system-out>
+  </testcase>
+  <testcase name="searchStudentsByName" classname="com.in28minutes.springboot.controller.StudentControllerTest" time="0.129">
+    <system-out><![CDATA[Hibernate: select s1_0.id,s1_0.age,s1_0.bio,s1_0.email,s1_0.gpa,s1_0.name,s1_0.password,s1_0.role,s1_0.username from students s1_0 where s1_0.username=?
+Hibernate: select s1_0.id,s1_0.age,s1_0.bio,s1_0.email,s1_0.gpa,s1_0.name,s1_0.password,s1_0.role,s1_0.username from students s1_0 where upper(s1_0.name) like upper(?) escape '\'
+Hibernate: select e1_0.student_id,e1_0.id,e1_0.course_id,e1_0.enrolled_at,e1_0.grade,e1_0.status from enrollments e1_0 where e1_0.student_id=?
+Hibernate: select c1_0.id,c1_0.credits,c1_0.description,c1_0.name from courses c1_0 where c1_0.id=?
+Hibernate: select c1_0.id,c1_0.credits,c1_0.description,c1_0.name from courses c1_0 where c1_0.id=?
+Hibernate: select c1_0.id,c1_0.credits,c1_0.description,c1_0.name from courses c1_0 where c1_0.id=?
+]]></system-out>
+  </testcase>
+  <testcase name="deleteStudentAsAdminSucceeds" classname="com.in28minutes.springboot.controller.StudentControllerTest" time="0.08">
+    <system-out><![CDATA[Hibernate: select s1_0.id,s1_0.age,s1_0.bio,s1_0.email,s1_0.gpa,s1_0.name,s1_0.password,s1_0.role,s1_0.username from students s1_0 where s1_0.username=?
+Hibernate: select count(*) from students s1_0 where s1_0.id=?
+Hibernate: select s1_0.id,s1_0.age,s1_0.bio,s1_0.email,s1_0.gpa,s1_0.name,s1_0.password,s1_0.role,s1_0.username from students s1_0 where s1_0.id=?
+Hibernate: select e1_0.student_id,e1_0.id,e1_0.course_id,e1_0.enrolled_at,e1_0.grade,e1_0.status from enrollments e1_0 where e1_0.student_id=?
+Hibernate: delete from enrollments where id=?
+Hibernate: delete from enrollments where id=?
+Hibernate: delete from enrollments where id=?
+Hibernate: delete from students where id=?
+]]></system-out>
+  </testcase>
+  <testcase name="updateMyProfile" classname="com.in28minutes.springboot.controller.StudentControllerTest" time="0.09">
+    <system-out><![CDATA[Hibernate: select s1_0.id,s1_0.age,s1_0.bio,s1_0.email,s1_0.gpa,s1_0.name,s1_0.password,s1_0.role,s1_0.username from students s1_0 where s1_0.username=?
+Hibernate: select s1_0.id,s1_0.age,s1_0.bio,s1_0.email,s1_0.gpa,s1_0.name,s1_0.password,s1_0.role,s1_0.username from students s1_0 where s1_0.username=?
+Hibernate: select e1_0.student_id,e1_0.id,e1_0.course_id,e1_0.enrolled_at,e1_0.grade,e1_0.status from enrollments e1_0 where e1_0.student_id=?
+Hibernate: select c1_0.id,c1_0.credits,c1_0.description,c1_0.name from courses c1_0 where c1_0.id=?
+Hibernate: select c1_0.id,c1_0.credits,c1_0.description,c1_0.name from courses c1_0 where c1_0.id=?
+Hibernate: select c1_0.id,c1_0.credits,c1_0.description,c1_0.name from courses c1_0 where c1_0.id=?
+Hibernate: update students set age=?,bio=?,email=?,gpa=?,name=?,password=?,role=?,username=? where id=?
+]]></system-out>
+  </testcase>
+  <testcase name="searchStudentsNoResults" classname="com.in28minutes.springboot.controller.StudentControllerTest" time="0.067">
+    <system-out><![CDATA[Hibernate: select s1_0.id,s1_0.age,s1_0.bio,s1_0.email,s1_0.gpa,s1_0.name,s1_0.password,s1_0.role,s1_0.username from students s1_0 where s1_0.username=?
+Hibernate: select s1_0.id,s1_0.age,s1_0.bio,s1_0.email,s1_0.gpa,s1_0.name,s1_0.password,s1_0.role,s1_0.username from students s1_0 where upper(s1_0.name) like upper(?) escape '\'
+]]></system-out>
+  </testcase>
+  <testcase name="updateMyProfileNameAndAge" classname="com.in28minutes.springboot.controller.StudentControllerTest" time="0.067">
+    <failure message="Status expected:&lt;200&gt; but was:&lt;401&gt;" type="java.lang.AssertionError"><![CDATA[java.lang.AssertionError: Status expected:<200> but was:<401>
+	at org.springframework.test.util.AssertionErrors.fail(AssertionErrors.java:62)
+	at org.springframework.test.util.AssertionErrors.assertEquals(AssertionErrors.java:129)
+	at org.springframework.test.web.servlet.result.StatusResultMatchers.lambda$matcher$0(StatusResultMatchers.java:564)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:212)
+	at com.in28minutes.springboot.controller.StudentControllerTest.updateMyProfileNameAndAge(StudentControllerTest.java:88)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+]]></failure>
+    <system-out><![CDATA[Hibernate: select s1_0.id,s1_0.age,s1_0.bio,s1_0.email,s1_0.gpa,s1_0.name,s1_0.password,s1_0.role,s1_0.username from students s1_0 where s1_0.username=?
+
+MockHttpServletRequest:
+      HTTP Method = PUT
+      Request URI = /api/students/me
+       Parameters = {}
+          Headers = [Content-Type:"application/json;charset=UTF-8", Content-Length:"57", Authorization:"Basic Y2Fyb2w6cGFzc3dvcmQxMjM="]
+             Body = {"name":"Carol Updated","age":23,"email":null,"bio":null}
+    Session Attrs = {}
+
+Handler:
+             Type = null
+
+Async:
+    Async started = false
+     Async result = null
+
+Resolved Exception:
+             Type = null
+
+ModelAndView:
+        View name = null
+             View = null
+            Model = null
+
+FlashMap:
+       Attributes = null
+
+MockHttpServletResponse:
+           Status = 401
+    Error message = Unauthorized
+          Headers = [WWW-Authenticate:"Basic realm="Realm"", X-Content-Type-Options:"nosniff", X-XSS-Protection:"0", Cache-Control:"no-cache, no-store, max-age=0, must-revalidate", Pragma:"no-cache", Expires:"0", X-Frame-Options:"SAMEORIGIN"]
+     Content type = null
+             Body = 
+    Forwarded URL = null
+   Redirected URL = null
+          Cookies = []
+]]></system-out>
+  </testcase>
+  <testcase name="getAllStudentsRequiresAuth" classname="com.in28minutes.springboot.controller.StudentControllerTest" time="0.004"/>
+  <testcase name="getStudentById" classname="com.in28minutes.springboot.controller.StudentControllerTest" time="0.067">
+    <system-out><![CDATA[Hibernate: select s1_0.id,s1_0.age,s1_0.bio,s1_0.email,s1_0.gpa,s1_0.name,s1_0.password,s1_0.role,s1_0.username from students s1_0 where s1_0.username=?
+Hibernate: select s1_0.id,s1_0.age,s1_0.bio,s1_0.email,s1_0.gpa,s1_0.name,s1_0.password,s1_0.role,s1_0.username from students s1_0 where s1_0.id=?
+Hibernate: select e1_0.student_id,e1_0.id,e1_0.course_id,e1_0.enrolled_at,e1_0.grade,e1_0.status from enrollments e1_0 where e1_0.student_id=?
+Hibernate: select c1_0.id,c1_0.credits,c1_0.description,c1_0.name from courses c1_0 where c1_0.id=?
+Hibernate: select c1_0.id,c1_0.credits,c1_0.description,c1_0.name from courses c1_0 where c1_0.id=?
+Hibernate: select c1_0.id,c1_0.credits,c1_0.description,c1_0.name from courses c1_0 where c1_0.id=?
+]]></system-out>
+  </testcase>
+  <testcase name="studentProfileIncludesGpa" classname="com.in28minutes.springboot.controller.StudentControllerTest" time="0.069">
+    <system-out><![CDATA[Hibernate: select s1_0.id,s1_0.age,s1_0.bio,s1_0.email,s1_0.gpa,s1_0.name,s1_0.password,s1_0.role,s1_0.username from students s1_0 where s1_0.username=?
+Hibernate: select s1_0.id,s1_0.age,s1_0.bio,s1_0.email,s1_0.gpa,s1_0.name,s1_0.password,s1_0.role,s1_0.username from students s1_0 where s1_0.username=?
+Hibernate: select e1_0.student_id,e1_0.id,e1_0.course_id,e1_0.enrolled_at,e1_0.grade,e1_0.status from enrollments e1_0 where e1_0.student_id=?
+Hibernate: select c1_0.id,c1_0.credits,c1_0.description,c1_0.name from courses c1_0 where c1_0.id=?
+Hibernate: select c1_0.id,c1_0.credits,c1_0.description,c1_0.name from courses c1_0 where c1_0.id=?
+Hibernate: select c1_0.id,c1_0.credits,c1_0.description,c1_0.name from courses c1_0 where c1_0.id=?
+]]></system-out>
+  </testcase>
+</testsuite>

@@ -1,0 +1,15 @@
+-------------------------------------------------------------------------------
+Test set: com.in28minutes.springboot.controller.StudentControllerTest
+-------------------------------------------------------------------------------
+Tests run: 13, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 4.057 s <<< FAILURE! -- in com.in28minutes.springboot.controller.StudentControllerTest
+com.in28minutes.springboot.controller.StudentControllerTest.updateMyProfileNameAndAge -- Time elapsed: 0.067 s <<< FAILURE!
+java.lang.AssertionError: Status expected:<200> but was:<401>
+	at org.springframework.test.util.AssertionErrors.fail(AssertionErrors.java:62)
+	at org.springframework.test.util.AssertionErrors.assertEquals(AssertionErrors.java:129)
+	at org.springframework.test.web.servlet.result.StatusResultMatchers.lambda$matcher$0(StatusResultMatchers.java:564)
+	at org.springframework.test.web.servlet.MockMvc$1.andExpect(MockMvc.java:212)
+	at com.in28minutes.springboot.controller.StudentControllerTest.updateMyProfileNameAndAge(StudentControllerTest.java:88)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:565)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+	at java.base/java.util.ArrayList.forEach(ArrayList.java:1604)
+
