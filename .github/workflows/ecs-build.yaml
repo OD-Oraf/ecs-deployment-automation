@@ -109,13 +109,31 @@ jobs:
         id: build-image
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-          IMAGE_TAG: ${{ github.sha }}
         run: |
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG \
-                        -t $ECR_REGISTRY/$ECR_REPOSITORY:latest .
+          # Get all image tags matching latest.* from ECR
+          LATEST_NUM=$(aws ecr describe-images \
+            --repository-name $ECR_REPOSITORY \
+            --query 'imageDetails[*].imageTags[]' \
+            --output text 2>/dev/null \
+            | tr '\t' '\n' \
+            | grep -E '^latest\.[0-9]+$' \
+            | sed 's/latest\.//' \
+            | sort -n \
+            | tail -1)
+
+          # If no latest.N tag exists, start at 0; otherwise increment by 1
+          if [ -z "$LATEST_NUM" ]; then
+            NEXT_NUM=0
+          else
+            NEXT_NUM=$((LATEST_NUM + 1))
+          fi
+
+          IMAGE_TAG="latest.${NEXT_NUM}"
+          echo "Tagging image as: $IMAGE_TAG"
+
+          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
           docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:latest
-          echo "image=$ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG" >> $GITHUB_OUTPUT
+          echo "image_tag=$IMAGE_TAG" >> $GITHUB_OUTPUT
 
       - name: Pull task definition from ECS
         id: pull-task-def
@@ -136,7 +154,7 @@ jobs:
         with:
           task-definition: task-definition.json
           container-name: ${{ env.CONTAINER_NAME }}
-          image: ${{ steps.build-image.outputs.image }}
+          image: ${{ steps.login-ecr.outputs.registry }}/${{ inputs.ecr_repository }}:${{ steps.build-image.outputs.image_tag }}
 
       - name: Deploy to Amazon ECS
         uses: aws-actions/amazon-ecs-deploy-task-definition@v2
