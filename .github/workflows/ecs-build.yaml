@@ -110,16 +110,24 @@ jobs:
         env:
           ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         run: |
-          # Get all image tags matching latest.* from ECR
-          LATEST_NUM=$(aws ecr describe-images \
+          # Get all tagged image tags from ECR as JSON
+          ALL_TAGS=$(aws ecr list-images \
             --repository-name $ECR_REPOSITORY \
-            --query 'imageDetails[*].imageTags[]' \
-            --output text 2>/dev/null \
-            | tr '\t' '\n' \
+            --filter tagStatus=TAGGED \
+            --query 'imageIds[*].imageTag' \
+            --output json 2>/dev/null || echo '[]')
+
+          echo "All tags found: $ALL_TAGS"
+
+          # Find the highest latest.N number
+          LATEST_NUM=$(echo "$ALL_TAGS" \
+            | jq -r '.[]' \
             | grep -E '^latest\.[0-9]+$' \
             | sed 's/latest\.//' \
             | sort -n \
-            | tail -1)
+            | tail -1 || true)
+
+          echo "Highest latest.N number found: '${LATEST_NUM}'"
 
           # If no latest.N tag exists, start at 0; otherwise increment by 1
           if [ -z "$LATEST_NUM" ]; then
