@@ -11,50 +11,6 @@ on:
         description: 'Target environment (dev, sit, uat, prod)'
         required: true
         type: string
-      ecs_cluster:
-        description: 'ECS cluster name'
-        required: true
-        type: string
-      container_name:
-        description: 'Container name in the task definition'
-        required: true
-        type: string
-      ecs_task_definition:
-        description: 'ECS task definition family name'
-        required: true
-        type: string
-      ecs_service:
-        description: 'ECS service name'
-        required: true
-        type: string
-      aws_region:
-        description: 'AWS region'
-        required: true
-        type: string
-      ecr_repository:
-        description: 'ECR repository name'
-        required: true
-        type: string
-      iam_role:
-        description: 'IAM role ARN for AWS credentials'
-        required: true
-        type: string
-      cpu:
-        description: 'Task definition CPU units'
-        required: true
-        type: string
-      memory:
-        description: 'Task definition memory (MiB)'
-        required: true
-        type: string
-
-env:
-  AWS_REGION: ${{ inputs.aws_region }}
-  ECR_REPOSITORY: ${{ inputs.ecr_repository }}
-  ECS_CLUSTER: ${{ inputs.ecs_cluster }}
-  ECS_SERVICE: ${{ inputs.ecs_service }}
-  ECS_TASK_DEFINITION: ${{ inputs.ecs_task_definition }}
-  CONTAINER_NAME: ${{ inputs.container_name }}
 
 permissions:
   id-token: write
@@ -68,38 +24,54 @@ jobs:
     steps:
       - name: Checkout application code
         uses: actions/checkout@v4
-
-      - name: Check repo structure for debugging
-        run: |
-          tree
-
-      - name: Move application code to workspace root
-        run: |
-          mv spring-boot-examples/spring-boot-web-application/* .
+        with:
+          path: app-code
 
       - name: Checkout deploy configs
         uses: actions/checkout@v4
         with:
           ref: deploy-config
-          path: deploy-configs-repo
+          path: deploy-configs
           sparse-checkout: 'deploy-configs/${{ inputs.service_name }}'
+
+      - name: Check repo structure for debugging
+        run: |
+          echo "=== app-code ==="
+          tree app-code
+          echo "=== deploy-configs ==="
+          tree deploy-configs
+
+      - name: Load properties file
+        id: config
+        run: |
+          PROPS_FILE="deploy-configs/deploy-configs/${{ inputs.service_name }}/${{ inputs.environment }}.properties"
+          if [ ! -f "$PROPS_FILE" ]; then
+            echo "::error::Properties file not found: $PROPS_FILE"
+            exit 1
+          fi
+          echo "--- Loading config from $PROPS_FILE ---"
+          cat "$PROPS_FILE"
+          while IFS='=' read -r key value; do
+            [[ -z "$key" || "$key" =~ ^# ]] && continue
+            echo "${key}=${value}" >> $GITHUB_OUTPUT
+          done < "$PROPS_FILE"
 
       - name: Copy Dockerfile from deploy configs
         run: |
-          DOCKERFILE_PATH="deploy-configs-repo/deploy-configs/${{ inputs.service_name }}/Dockerfile"
+          DOCKERFILE_PATH="deploy-configs/deploy-configs/${{ inputs.service_name }}/Dockerfile"
           if [ ! -f "$DOCKERFILE_PATH" ]; then
             echo "::error::Dockerfile not found at $DOCKERFILE_PATH"
             exit 1
           fi
-          cp "$DOCKERFILE_PATH" Dockerfile
+          cp "$DOCKERFILE_PATH" app-code/spring-boot-examples/spring-boot-web-application/Dockerfile
           echo "--- Using Dockerfile for ${{ inputs.service_name }} ---"
-          cat Dockerfile
+          cat app-code/spring-boot-examples/spring-boot-web-application/Dockerfile
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ inputs.iam_role }}
-          aws-region: ${{ inputs.aws_region }}
+          role-to-assume: ${{ steps.config.outputs.iam_role }}
+          aws-region: ${{ steps.config.outputs.aws_region }}
 
       - name: Login to Amazon ECR
         id: login-ecr
@@ -108,29 +80,31 @@ jobs:
       - name: Build, tag, and push image to ECR
         id: build-image
         env:
-          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          ECR_REPOSITORY_URI: ${{ steps.config.outputs.ecr_uri }}
           IMAGE_TAG: latest.gh-${{ github.run_number }}
         run: |
           echo "Tagging image as: $IMAGE_TAG"
           
           echo "::group::Docker Build Grouped Logs"
-          docker build -t $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG .
+          docker build -t $ECR_REPOSITORY_URI:$IMAGE_TAG \
+            -f app-code/spring-boot-examples/spring-boot-web-application/Dockerfile \
+            app-code/spring-boot-examples/spring-boot-web-application
           echo "::endgroup::"
           
-          docker push $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG
+          docker push $ECR_REPOSITORY_URI:$IMAGE_TAG
           echo "image_tag=$IMAGE_TAG" >> $GITHUB_OUTPUT
 
       - name: Pull task definition from ECS
         id: pull-task-def
         run: |
           aws ecs describe-task-definition \
-            --task-definition $ECS_TASK_DEFINITION \
+            --task-definition ${{ steps.config.outputs.ecs_task_definition }} \
             --query 'taskDefinition' \
             --output json | jq \
-              --arg cpu "${{ inputs.cpu }}" \
-              --arg mem "${{ inputs.memory }}" \
+              --arg cpu "${{ steps.config.outputs.cpu }}" \
+              --arg mem "${{ steps.config.outputs.memory }}" \
               'del(.taskDefinitionArn, .revision, .status, .requiresAttributes, .compatibilities, .registeredAt, .registeredBy) | .cpu = $cpu | .memory = $mem' > task-definition.json
-          echo "Pulled and cleaned task definition (cpu=${{ inputs.cpu }}, memory=${{ inputs.memory }}):"
+          echo "Pulled and cleaned task definition (cpu=${{ steps.config.outputs.cpu }}, memory=${{ steps.config.outputs.memory }}):"
           cat task-definition.json
 
       - name: Update image in task definition
@@ -138,20 +112,20 @@ jobs:
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: task-definition.json
-          container-name: ${{ env.CONTAINER_NAME }}
-          image: ${{ steps.login-ecr.outputs.registry }}/${{ inputs.ecr_repository }}:${{ steps.build-image.outputs.image_tag }}
+          container-name: ${{ steps.config.outputs.container_name }}
+          image: ${{ steps.config.outputs.ecr_uri }}:${{ steps.build-image.outputs.image_tag }}
 
       - name: Deploy to Amazon ECS
         uses: aws-actions/amazon-ecs-deploy-task-definition@v2
         with:
           task-definition: ${{ steps.render-task-def.outputs.task-definition }}
-          service: ${{ env.ECS_SERVICE }}
-          cluster: ${{ env.ECS_CLUSTER }}
+          service: ${{ steps.config.outputs.ecs_service }}
+          cluster: ${{ steps.config.outputs.ecs_cluster }}
           wait-for-service-stability: true
 
       - name: Set desired count to 2
         run: |
           aws ecs update-service \
-            --cluster $ECS_CLUSTER \
-            --service $ECS_SERVICE \
+            --cluster ${{ steps.config.outputs.ecs_cluster }} \
+            --service ${{ steps.config.outputs.ecs_service }} \
             --desired-count 2
