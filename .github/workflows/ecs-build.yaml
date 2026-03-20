@@ -67,6 +67,64 @@ jobs:
           echo "--- Using Dockerfile for ${{ inputs.service_name }} ---"
           cat app-code/spring-boot-examples/spring-boot-web-application/Dockerfile
 
+      - name: Configure AWS credentials for Secrets Manager
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: arn:aws:iam::289491622160:role/rest-service-dev-github-actions-ecs-deploy
+          aws-region: us-east-1
+
+      - name: Retrieve artifact credentials from Secrets Manager
+        uses: aws-actions/aws-secretsmanager-get-secrets@v2
+        with:
+          secret-ids: |
+            NEXUS, artifact_credentials
+          parse-json-secrets: true
+
+      - name: Generate Maven settings.xml
+        env:
+          NEXUS_USERNAME: ${{ env.NEXUS_USERNAME }}
+          NEXUS_PASSWORD: ${{ env.NEXUS_PASSWORD }}
+          NEXUS_URL: ${{ secrets.nexus_url }}
+        run: |
+          SETTINGS_DIR="app-code/spring-boot-examples/spring-boot-web-application"
+          cat > "${SETTINGS_DIR}/settings.xml" <<'XMLEOF'
+          <?xml version="1.0" encoding="UTF-8"?>
+          <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                    xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+            <servers>
+              <server>
+                <id>nexus</id>
+                <username>NEXUS_USERNAME_PLACEHOLDER</username>
+                <password>NEXUS_PASSWORD_PLACEHOLDER</password>
+              </server>
+            </servers>
+            <profiles>
+              <profile>
+                <id>nexus</id>
+                <repositories>
+                  <repository>
+                    <id>nexus</id>
+                    <url>NEXUS_URL_PLACEHOLDER</url>
+                    <releases><enabled>true</enabled></releases>
+                    <snapshots><enabled>true</enabled></snapshots>
+                  </repository>
+                </repositories>
+              </profile>
+            </profiles>
+            <activeProfiles>
+              <activeProfile>nexus</activeProfile>
+            </activeProfiles>
+          </settings>
+          XMLEOF
+
+          sed -i "s|NEXUS_USERNAME_PLACEHOLDER|${NEXUS_USERNAME}|g" "${SETTINGS_DIR}/settings.xml"
+          sed -i "s|NEXUS_PASSWORD_PLACEHOLDER|${NEXUS_PASSWORD}|g" "${SETTINGS_DIR}/settings.xml"
+          sed -i "s|NEXUS_URL_PLACEHOLDER|${NEXUS_URL}|g" "${SETTINGS_DIR}/settings.xml"
+
+          echo "--- Generated settings.xml ---"
+          cat "${SETTINGS_DIR}/settings.xml"
+
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
