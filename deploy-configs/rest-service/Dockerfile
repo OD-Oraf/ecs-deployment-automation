@@ -1,4 +1,4 @@
-FROM eclipse-temurin:21-jre
+FROM DOCKER_IMAGE
 WORKDIR /app
 COPY target/JAR_FILE.jar /app/target/JAR_FILE.jar
 EXPOSE 8080
