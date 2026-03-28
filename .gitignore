@@ -1,4 +1,6 @@
 .idea/
 
+.DS_Store
+
 spring-boot-examples/*
 !spring-boot-examples/spring-boot-web-application
