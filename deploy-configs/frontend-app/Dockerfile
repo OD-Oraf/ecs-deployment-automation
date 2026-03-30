@@ -1,14 +1,30 @@
-FROM node:20-alpine AS build
+FROM node:20-alpine AS base
+
+FROM base AS deps
+RUN apk add --no-cache libc6-compat
 WORKDIR /app
-COPY package*.json ./
+COPY package.json package-lock.json* ./
 RUN npm ci
+
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+ARG API_URL
+ENV API_URL=${API_URL}
 RUN npm run build
 
-FROM node:20-alpine
+FROM base AS runner
 WORKDIR /app
-COPY --from=build /app/package*.json ./
-RUN npm ci --only=production
-COPY --from=build /app/dist ./dist
+ENV NODE_ENV=production
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+COPY --from=builder /app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+USER nextjs
 EXPOSE 3000
-CMD ["node", "dist/index.js"]
+ENV PORT=3000
+ENV HOSTNAME="0.0.0.0"
+CMD ["node", "server.js"]
