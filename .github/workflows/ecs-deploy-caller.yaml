@@ -19,6 +19,18 @@ on:
           - sit
           - uat
           - prod
+      java_version:
+        description: 'Java version to build with'
+        required: true
+        type: choice
+        options:
+          - '17'
+          - '21'
+      docker_image:
+        description: 'Base Docker image for the Dockerfile'
+        required: true
+        type: string
+        default: 'eclipse-temurin:17-jre-alpine'
 
 permissions:
   id-token: write
@@ -31,3 +43,5 @@ jobs:
     with:
       service_name: ${{ inputs.service_name }}
       environment: ${{ inputs.environment }}
+      java_version: ${{ inputs.java_version }}
+      docker_image: ${{ inputs.docker_image }}

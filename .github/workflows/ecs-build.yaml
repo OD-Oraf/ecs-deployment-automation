@@ -11,6 +11,14 @@ on:
         description: 'Target environment (dev, sit, uat, prod)'
         required: true
         type: string
+      java_version:
+        description: 'Java version to build with (e.g. 17, 21)'
+        required: true
+        type: string
+      docker_image:
+        description: 'Base Docker image for the Dockerfile (e.g. eclipse-temurin:17-jre-alpine)'
+        required: true
+        type: string
 
 permissions:
   id-token: write
@@ -55,6 +63,12 @@ jobs:
             [[ -z "$key" || "$key" =~ ^# ]] && continue
             echo "${key}=${value}" >> $GITHUB_OUTPUT
           done < "$PROPS_FILE"
+
+      - name: Set up Java ${{ inputs.java_version }}
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: ${{ inputs.java_version }}
 
       - name: Copy Dockerfile from deploy configs
         run: |
@@ -124,6 +138,23 @@ jobs:
 
           echo "--- Generated settings.xml ---"
           cat "${SETTINGS_DIR}/settings.xml"
+
+      - name: Build with Maven
+        id: maven-build
+        run: |
+          cd app-code/spring-boot-examples/spring-boot-web-application
+          mvn clean package -s settings.xml -DskipTests
+          JAR_FILE=$(ls target/*.jar | head -1 | xargs basename | sed 's/\.jar$//')
+          echo "jar_file=$JAR_FILE" >> $GITHUB_OUTPUT
+          echo "--- Built JAR: $JAR_FILE ---"
+
+      - name: Update Dockerfile with dynamic values
+        run: |
+          DOCKERFILE="app-code/spring-boot-examples/spring-boot-web-application/Dockerfile"
+          sed -i "s|DOCKER_IMAGE|${{ inputs.docker_image }}|g" "$DOCKERFILE"
+          sed -i "s|JAR_FILE|${{ steps.maven-build.outputs.jar_file }}|g" "$DOCKERFILE"
+          echo "--- Final Dockerfile ---"
+          cat "$DOCKERFILE"
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
