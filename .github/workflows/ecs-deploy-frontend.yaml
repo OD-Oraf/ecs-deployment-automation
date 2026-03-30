@@ -1,0 +1,40 @@
+name: Deploy Frontend to ECS
+
+on:
+  workflow_dispatch:
+    inputs:
+      service_name:
+        description: 'Service to deploy (must match a folder in deploy-configs/)'
+        required: true
+        type: choice
+        options:
+          - frontend-app
+      environment:
+        description: 'Target environment'
+        required: true
+        type: choice
+        options:
+          - dev
+          - sit
+          - uat
+          - prod
+      node_version:
+        description: 'Node.js version to build with'
+        required: true
+        type: choice
+        options:
+          - '20'
+          - '22'
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  deploy:
+    name: Deploy ${{ inputs.service_name }} to ${{ inputs.environment }}
+    uses: ./.github/workflows/ecs-build-frontend.yaml
+    with:
+      service_name: ${{ inputs.service_name }}
+      environment: ${{ inputs.environment }}
+      node_version: ${{ inputs.node_version }}
