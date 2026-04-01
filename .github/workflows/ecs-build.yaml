@@ -217,7 +217,7 @@ jobs:
           aws ecs update-service \
             --cluster ${{ steps.config.outputs.ecs_cluster }} \
             --service ${{ steps.config.outputs.ecs_service }} \
-            --desired-count 2
+            --desired-count 1
 
       - name: Install k6
         run: |
