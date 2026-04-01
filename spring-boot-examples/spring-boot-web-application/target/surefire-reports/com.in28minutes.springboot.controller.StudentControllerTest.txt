@@ -1,4 +1,0 @@
--------------------------------------------------------------------------------
-Test set: com.in28minutes.springboot.controller.StudentControllerTest
--------------------------------------------------------------------------------
-Tests run: 13, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 4.116 s -- in com.in28minutes.springboot.controller.StudentControllerTest
